@@ -1,9 +1,16 @@
 {
   "dependencies": {
+    "@openzeppelin/contracts": "^4.8.2",
+    "@truffle/hdwallet-provider": "^2.1.9",
     "truffle": "^5.8.1"
   },
   "name": "backend",
   "version": "1.0.0",
   "main": "index.js",
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "transfer-abis": "cp -r build/contracts ../frontend/contracts"
+  }
+
+
 }
