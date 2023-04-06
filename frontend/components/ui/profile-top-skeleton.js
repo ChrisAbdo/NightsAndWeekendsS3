@@ -19,12 +19,12 @@ export default function ProfileTopSkeleton() {
           <div className="flex flex-1 items-center justify-between truncate rounded-r-md border-b border-r border-t border-gray-200 dark:border-[#333] bg-white dark:bg-[#111]">
             <div className="flex-1 truncate px-4 py-2 text-sm">
               <div className="space-y-1">
-                <div className="bg-gray-200 dark:bg-[#333] w-16 h-4 animate-pulse rounded-md" />
-                <div className="bg-gray-200 dark:bg-[#333] w-16 h-4 animate-pulse rounded-md" />
+                <div className="bg-gray-200 dark:bg-[#333] w-full h-4 animate-pulse rounded-md" />
+                <div className="bg-gray-200 dark:bg-[#333] w-10 h-4 animate-pulse rounded-md" />
               </div>
             </div>
 
-            <div className="mr-4 bg-gray-200 dark:bg-[#333] w-8 h-8 animate-pulse rounded-md" />
+            <div className="mr-4 bg-gray-200 dark:bg-[#333] w-2 h-6 animate-pulse rounded-md" />
           </div>
         </li>
       ))}
