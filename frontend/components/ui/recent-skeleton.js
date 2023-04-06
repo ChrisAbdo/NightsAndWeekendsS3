@@ -13,12 +13,12 @@ export default function RecentSkeleton() {
               <div className="bg-gray-200 dark:bg-[#333] w-8 h-8 animate-pulse rounded-md" />
             </div>
 
-            <div className="min-w-0 flex-1 space-y-1">
+            <div className="min-w-0 flex-1 space-y-2">
               <div className="truncate text-sm font-medium ">
                 <div className="bg-gray-200 dark:bg-[#333] w-full h-4 animate-pulse rounded-md" />
               </div>
               <div className="truncate text-sm ">
-                <div className="bg-gray-200 dark:bg-[#333] w-full h-4 animate-pulse rounded-md" />
+                <div className="bg-gray-200 dark:bg-[#333] w-24 h-4 animate-pulse rounded-md" />
               </div>
             </div>
             <div>

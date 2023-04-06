@@ -24,7 +24,7 @@ export default function ProfileTopSkeleton() {
               </div>
             </div>
 
-            <div className="mr-4 bg-gray-200 dark:bg-[#333] w-2 h-6 animate-pulse rounded-md" />
+            <div className="mr-4 bg-gray-200 dark:bg-[#333] w-3 h-6 animate-pulse rounded-md" />
           </div>
         </li>
       ))}

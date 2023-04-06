@@ -495,7 +495,7 @@ export default function Listen() {
                           />
                           <div className="flex-1 space-y-1">
                             <div className="flex items-center justify-between">
-                              <h3 className="text-sm font-medium">
+                              <h3 className="text-sm font-medium line-clamp-1">
                                 {nft.title}
                               </h3>
                               <div className="flex items-center text-sm text-gray-500">

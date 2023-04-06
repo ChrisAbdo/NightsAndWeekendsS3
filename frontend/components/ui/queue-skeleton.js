@@ -16,7 +16,7 @@ export default function QueueSkeleton() {
             <div className="flex space-x-3">
               <div className="bg-gray-200 dark:bg-[#333] w-10 h-10 animate-pulse rounded-md" />
 
-              <div className="flex-1 space-y-1">
+              <div className="flex-1 space-y-3">
                 <div className="flex items-center justify-between">
                   <h3 className="text-sm font-medium">
                     <div className="bg-gray-200 dark:bg-[#333] w-24 h-4 animate-pulse rounded-md" />

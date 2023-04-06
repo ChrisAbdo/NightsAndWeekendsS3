@@ -15,7 +15,7 @@ export default function LeaderboardSkeleton() {
             <div className="flex-shrink-0">
               <div className="bg-gray-200 dark:bg-[#333] w-4 h-4 animate-pulse rounded-md" />
             </div>
-            <div className="min-w-0 flex-1 space-y-1">
+            <div className="min-w-0 flex-1 space-y-2">
               <div className="truncate text-sm font-medium ">
                 <div className="bg-gray-200 dark:bg-[#333] w-full h-4 animate-pulse rounded-md" />
               </div>
