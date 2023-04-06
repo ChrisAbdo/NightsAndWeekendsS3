@@ -1,16 +1,18 @@
 import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useInView } from "react-intersection-observer";
-import { FireIcon, GlobeAltIcon, MusicalNoteIcon } from "@heroicons/react/24/outline";
+import {
+  FireIcon,
+  GlobeAltIcon,
+  MusicalNoteIcon,
+} from "@heroicons/react/24/outline";
 
 const cards = [
   {
     name: (
       <div className="flex items-center">
-         <GlobeAltIcon className="mr-1 h-5 w-5" />
+        <GlobeAltIcon className="mr-1 h-5 w-5" />
         Community Driven
         <GlobeAltIcon className="ml-1 h-5 w-5" />
-       
       </div>
     ),
     description:
@@ -19,10 +21,9 @@ const cards = [
   {
     name: (
       <div className="flex items-center">
-         <FireIcon className="mr-1 h-5 w-5" />
+        <FireIcon className="mr-1 h-5 w-5" />
         Heat Leaderboard
         <FireIcon className="ml-1 h-5 w-5" />
-       
       </div>
     ),
     description:
@@ -46,11 +47,6 @@ const fadeIn = {
 };
 
 export default function HeaderSection() {
-  const [ref, inView] = useInView({
-    triggerOnce: true,
-    threshold: 0.1,
-  });
-
   return (
     <motion.div className="relative isolate overflow-hidden bg-[#eaeaea] dark:bg-[#111] border-t border-black dark:border-[#333] bg-opacity-90 dark:bg-opacity-90 backdrop-blur-md dark:backdrop-blur-md py-24 sm:py-32 z-10">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
@@ -59,7 +55,6 @@ export default function HeaderSection() {
             <div
               key={card.name}
               className="flex gap-x-4 rounded-xl  bg-[#fafafa] dark:bg-white/5 hover:bg-[#fafafa]/50 dark:hover:bg-[#333]/80 transition duration-200 p-6 ring-1 ring-inset ring-white/10 dark:ring-black/10"
-              ref={ref}
             >
               <AnimatePresence>
                 <motion.div
@@ -69,25 +64,12 @@ export default function HeaderSection() {
                   animate="visible"
                   exit="hidden"
                 >
-                  {inView ? (
-                    <>
-                      <h3 className="font-semibold text-black dark:text-white">
-                        {card.name}
-                      </h3>
-                      <p className="mt-2 text-black dark:text-white">
-                        {card.description}
-                      </p>
-                    </>
-                  ) : (
-                    <div className="animate-pulse">
-                      <div className="h-4 bg-gray-400 rounded w-3/4"></div>
-                      <div className="h-4 bg-gray-400 rounded w-5/6 mt-2"></div>
-                      <div className="h-4 bg-gray-400 rounded w-3/4 mt-2"></div>
-                      <div className="h-4 bg-gray-400 rounded w-5/6 mt-2"></div>
-                      <div className="h-4 bg-gray-400 rounded w-3/4 mt-2"></div>
-                      <div className="h-4 bg-gray-400 rounded w-5/6 mt-2"></div>
-                    </div>
-                  )}
+                  <h3 className="font-semibold text-black dark:text-white">
+                    {card.name}
+                  </h3>
+                  <p className="mt-2 text-black dark:text-white">
+                    {card.description}
+                  </p>
                 </motion.div>
               </AnimatePresence>
             </div>

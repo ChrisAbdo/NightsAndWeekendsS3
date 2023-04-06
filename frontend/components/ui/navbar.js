@@ -4,21 +4,14 @@ import WalletModal from "./wallet-modal";
 import Web3 from "web3";
 import { Dialog, Disclosure, Popover, Transition } from "@headlessui/react";
 import {
-  ArrowPathIcon,
   Bars3Icon,
   ChartPieIcon,
   CursorArrowRaysIcon,
-  FingerPrintIcon,
   FireIcon,
-  SquaresPlusIcon,
   StarIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
-import {
-  ChevronDownIcon,
-  PhoneIcon,
-  PlayCircleIcon,
-} from "@heroicons/react/20/solid";
+import { ChevronDownIcon, PlayCircleIcon } from "@heroicons/react/20/solid";
 import Link from "next/link";
 
 const products = [
@@ -37,7 +30,11 @@ const products = [
 ];
 const callsToAction = [
   { name: "Watch demo", href: "#", icon: PlayCircleIcon },
-  { name: "Star on GitHub", href: "https://github.com/ChrisAbdo/Ethrwav", icon: StarIcon },
+  {
+    name: "Star on GitHub",
+    href: "https://github.com/ChrisAbdo/Ethrwav",
+    icon: StarIcon,
+  },
 ];
 
 function classNames(...classes) {
@@ -93,7 +90,7 @@ export default function Navbar() {
             <span className="sr-only">Your Company</span>
             <h1 className="flex items-center text-xl font-bold leading-7 text-black dark:text-white">
               <FireIcon className="h-6 w-6 mr-1" aria-hidden="true" />
-               Etherwav
+              Etherwav
             </h1>
           </Link>
         </div>
@@ -185,19 +182,27 @@ export default function Navbar() {
           </Link>
         </Popover.Group>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
+
+          {connectedAccount && (
+          <button
+            type="button"
+            onClick={() => setOpen(true)}
+            className="rounded-md bg-transparent px-5 py-2 text-sm font-semibold text-black dark:text-white shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-[#333] hover:bg-gray-200 dark:hover:bg-[#333] transition duration-200"
+          >
+            {connectedAccount.slice(0, 5)}...{connectedAccount.slice(-4)}
+          </button>
+          )}
+
+          {!connectedAccount && (
           <button
             type="button"
             onClick={() => setOpen(true)}
             className="rounded-md bg-transparent px-3 py-2 text-sm font-semibold text-black dark:text-white shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-[#333] hover:bg-gray-200 dark:hover:bg-[#333] transition duration-200"
           >
-            {connectedAccount ? (
-              <span>
-                {connectedAccount.slice(0, 5)}...{connectedAccount.slice(-4)}
-              </span>
-            ) : (
-              <span>Connect Wallet</span>
-            )}
+            <span>Connect Wallet</span>
           </button>
+          )}
+
           <WalletModal
             open={open}
             setOpen={setOpen}
