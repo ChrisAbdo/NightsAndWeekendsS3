@@ -182,25 +182,24 @@ export default function Navbar() {
           </Link>
         </Popover.Group>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-
           {connectedAccount && (
-          <button
-            type="button"
-            onClick={() => setOpen(true)}
-            className="rounded-md bg-transparent px-5 py-2 text-sm font-semibold text-black dark:text-white shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-[#333] hover:bg-gray-200 dark:hover:bg-[#333] transition duration-200"
-          >
-            {connectedAccount.slice(0, 5)}...{connectedAccount.slice(-4)}
-          </button>
+            <button
+              type="button"
+              onClick={() => setOpen(true)}
+              className="rounded-md bg-transparent px-5 py-2 text-sm font-semibold text-black dark:text-white shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-[#333] hover:bg-gray-200 dark:hover:bg-[#333] transition duration-200"
+            >
+              {connectedAccount.slice(0, 5)}...{connectedAccount.slice(-4)}
+            </button>
           )}
 
           {!connectedAccount && (
-          <button
-            type="button"
-            onClick={() => setOpen(true)}
-            className="rounded-md bg-transparent px-3 py-2 text-sm font-semibold text-black dark:text-white shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-[#333] hover:bg-gray-200 dark:hover:bg-[#333] transition duration-200"
-          >
-            <span>Connect Wallet</span>
-          </button>
+            <button
+              type="button"
+              onClick={() => setOpen(true)}
+              className="rounded-md bg-transparent px-3 py-2 text-sm font-semibold text-black dark:text-white shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-[#333] hover:bg-gray-200 dark:hover:bg-[#333] transition duration-200"
+            >
+              <span>Connect Wallet</span>
+            </button>
           )}
 
           <WalletModal
