@@ -61,20 +61,34 @@ contract Radio is ReentrancyGuard {
         NFT storage nft = _idToNFT[_tokenId];
         require(nft.listed, "NFT is not listed");
 
-        // Ensure that the owner of the NFT is the one calling this function
-        require(nft.owner == msg.sender, "Only the owner can delete the NFT");
-
-        // Transfer the NFT back to the owner
-        IERC721(nft.nftContract).transferFrom(
-            address(this),
-            nft.owner,
-            nft.tokenId
-        );
+        // Ensure that the seller of the NFT is the one calling this function
+        require(nft.seller == msg.sender, "Only the owner can delete the NFT");
 
         // Unlist the NFT
         nft.listed = false;
 
-        // Emit the NFTDeleted event
+        // Remove the NFT from the array of listed NFTs
+        uint256 index;
+        for (uint256 i = 0; i < _nftCount.current(); i++) {
+            if (_idToNFT[i + 1].tokenId == _tokenId) {
+                index = i;
+                break;
+            }
+        }
+        nft = _idToNFT[_nftCount.current()];
+        _idToNFT[_nftCount.current()] = NFT(
+            address(0),
+            0,
+            payable(address(0)),
+            payable(address(0)),
+            false,
+            0,
+            ""
+        );
+        _nftCount.decrement();
+        _nftsSold.increment();
+
+        // Emit the NFTSold event
         emit NFTDeleted(nft.nftContract, nft.tokenId, nft.seller, nft.owner);
     }
 

@@ -9,8 +9,9 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "transfer-abis": "cp -r build/contracts ../frontend/contracts"
+    "transfer-abis": "test -d ../frontend/contracts && rm -r ../frontend/contracts; cp -r build/contracts ../frontend/contracts"
   }
+  
 
 
 }

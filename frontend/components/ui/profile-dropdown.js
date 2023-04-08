@@ -12,18 +12,17 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function ProfileDropdown({
-  nfts,
-  deleteMyNFT
-}) {
+export default function ProfileDropdown() {
+  
   return (
     <div className="inline-flex rounded-md shadow-sm">
   <button
-    type="button"
-    className="relative inline-flex items-center rounded-l-md px-3 py-2 text-sm font-semibold ring-1 ring-inset ring-gray-300 dark:ring-[#333] hover:bg-gray-50 dark:hover:bg-[#111] focus:z-10"
-  >
-    Delete Song
-  </button>
+  type="button"
+  className="relative inline-flex items-center rounded-l-md px-3 py-2 text-sm font-semibold ring-1 ring-inset ring-gray-300 dark:ring-[#333] hover:bg-gray-50 dark:hover:bg-[#111] focus:z-10"
+>
+  Delete Song
+</button>
+
 
 
       <Menu as="div" className="relative -ml-px block">

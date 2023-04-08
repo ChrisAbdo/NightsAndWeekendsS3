@@ -151,12 +151,7 @@ export default function Example() {
   }
 
   async function deleteMyNFT() {
-    // Check if there are NFTs and currentIndex is within the range
-    if (nfts.length === 0 || currentIndex < 0 || currentIndex >= nfts.length) {
-      console.error('Invalid index or no NFTs available');
-      return;
-    }
-  
+    
     const web3 = new Web3(window.ethereum);
     const networkId = await web3.eth.net.getId();
   
@@ -888,43 +883,43 @@ export default function Example() {
                   <tbody className="divide-y divide-gray-100 dark:divide-[#333]">
                     {" "}
                     {nfts.length > 0 ? (
-                      nfts.map((nft, i) => (
-                        <tr key={nft.tokenId}>
-                          <td className="w-full max-w-0 whitespace-nowrap px-6 py-3 text-sm font-medium ">
-                            <div className="flex items-center space-x-3 lg:pl-2">
-                              <img
-                                className="h-8 w-8 max-w-none rounded-md"
-                                src={nft.coverImage}
-                              />
-                              <a
-                                href="#"
-                                className="truncate hover:text-gray-600"
-                              >
-                                <span>{nft.title}</span>
-                              </a>
-                            </div>
-                          </td>
-                          <td className="px-6 py-3 text-sm font-medium text-gray-500">
-                            <div className="flex items-center space-x-2">
-                              <div className="flex flex-shrink-0 -space-x-1" />
+  nfts.map((nft, i) => (
+    <tr key={nft.tokenId}>
+      <td className="w-full max-w-0 whitespace-nowrap px-6 py-3 text-sm font-medium ">
+        <div className="flex items-center space-x-3 lg:pl-2">
+          <img
+            className="h-8 w-8 max-w-none rounded-md"
+            src={nft.coverImage}
+          />
+          <a
+            href="#"
+            className="truncate hover:text-gray-600"
+          >
+            <span>{nft.title}</span>
+          </a>
+        </div>
+      </td>
+      <td className="px-6 py-3 text-sm font-medium text-gray-500">
+        <div className="flex items-center space-x-2">
+          <div className="flex flex-shrink-0 -space-x-1" />
 
-                              <span className="flex-shrink-0 text-xs font-medium leading-5">
-                                {nft.heatCount}
-                              </span>
-                            </div>
-                          </td>
-                          <td className="hidden whitespace-nowrap px-6 py-3 text-right text-sm text-gray-500 md:table-cell">
-                            {nft.genre}
-                          </td>
-                          <td className="whitespace-nowrap px-6 py-3 text-right text-sm font-medium">
-                          <ProfileDropdown nft={nft} deleteMyNFT={deleteMyNFT} currentIndex={i} />
-                            
-                          </td>
-                        </tr>
-                      ))
-                    ) : (
-                      <ProfileSkeleton />
-                    )}
+          <span className="flex-shrink-0 text-xs font-medium leading-5">
+            {nft.heatCount}
+          </span>
+        </div>
+      </td>
+      <td className="hidden whitespace-nowrap px-6 py-3 text-right text-sm text-gray-500 md:table-cell">
+        {nft.genre}
+      </td>
+      <td className="whitespace-nowrap px-6 py-3 text-right text-sm font-medium">
+        <ProfileDropdown />
+      </td>
+    </tr>
+  ))
+) : (
+  <ProfileSkeleton />
+)}
+
                   </tbody>
                 </table>
               </div>
