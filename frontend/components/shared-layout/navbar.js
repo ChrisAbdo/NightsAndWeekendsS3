@@ -13,6 +13,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { ChevronDownIcon, PlayCircleIcon } from "@heroicons/react/20/solid";
 import Link from "next/link";
+import FlyoutMenu from "./flyout-menu";
 
 const products = [
   {
@@ -250,8 +251,8 @@ export default function Navbar() {
             </button>
           )}
 
-            <div className="flex items-center ml-4">
-          <DarkModeToggle />
+          <div className="flex items-center ml-4">
+            <DarkModeToggle />
           </div>
 
           <WalletModal
@@ -285,7 +286,7 @@ export default function Navbar() {
             </button>
           )}
           <div className="flex items-center">
-            <DarkModeToggle />
+            <FlyoutMenu />
           </div>
         </div>
       </nav>
