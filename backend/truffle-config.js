@@ -15,7 +15,7 @@ module.exports = {
       provider: () =>
         new HDWalletProvider(
           mnemonic,
-          `https://polygon-mumbai.infura.io/v3/${projectId}`
+          `https://polygon-mumbai.infura.io/v3/bc3a18f867074b7186d877cb4d45675a`
         ),
       network_id: 80001,
       confirmations: 2,

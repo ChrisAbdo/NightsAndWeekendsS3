@@ -50,10 +50,10 @@ contract Radio is ReentrancyGuard {
 
         // send the heat to the seller of the NFT
         require(payable((nft.seller)).send(_heatCount), "Transfer failed"); // Increment the heatCount of the NFT by the given amount
+        // send the heat to the seller of the NFT
+        payable((nft.seller)).transfer(_heatCount);
         nft.heatCount += _heatCount;
     }
-
-    // function to send heat to the owner of the NFTs, respectivly
 
     // Delete the NFT from the marketplace and transfer it back to the owner
     function deleteNFT(uint256 _tokenId) public nonReentrant {
