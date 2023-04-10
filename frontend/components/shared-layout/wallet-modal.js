@@ -10,6 +10,7 @@ export default function WalletModal({
   connectWallet,
   connectedAccount,
   setConnectedAccount,
+  error,
 }) {
   const [show, setShow] = useState(false);
   const [notificationText, setNotificationText] = useState("");
@@ -91,6 +92,11 @@ export default function WalletModal({
                     </button>
                   )}
 
+                  {error && (
+                    <h1 className="text-red-500 text-sm text-center">
+                      You do not appear to have a wallet. Please consider installing and using MetaMask.
+                    </h1>
+                  )}
 
                     {connectedAccount && (
                   <button

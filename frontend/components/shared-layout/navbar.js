@@ -44,6 +44,7 @@ function classNames(...classes) {
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [error, setError] = useState(false);
 
   const web3 = new Web3(Web3.givenProvider);
   
@@ -71,16 +72,57 @@ export default function Navbar() {
   //   loadConnectedAccount();
   // }, []);
 
+  useEffect(() => {
+    if (typeof window === "undefined") return; // This checks if the window object is available
+
+    const loadConnectedAccount = async () => {
+      const accounts = await web3.eth.getAccounts();
+      if (accounts.length > 0) {
+        setConnectedAccount(accounts[0]);
+      }
+    };
+
+    // event listener for MetaMask account change
+    const handleAccountsChanged = (accounts) => {
+      setConnectedAccount(accounts[0]);
+    };
+
+    // event listener for MetaMask disconnect
+    const handleDisconnect = (error) => {
+      setConnectedAccount(null);
+    };
+
+    if (window.ethereum) {
+      window.ethereum.on("accountsChanged", handleAccountsChanged);
+      window.ethereum.on("disconnect", handleDisconnect);
+    }
+
+    loadConnectedAccount();
+
+    // Cleanup function
+    return () => {
+      if (window.ethereum) {
+        window.ethereum.removeListener("accountsChanged", handleAccountsChanged);
+        window.ethereum.removeListener("disconnect", handleDisconnect);
+      }
+    };
+  }, []);
+
   const connectWallet = async () => {
     try {
-
-
+      if (!web3 || !web3.currentProvider) {
+        console.error("No Ethereum provider found. Please install MetaMask or use a compatible browser.");
+        setError(true)
+        return;
+      }
+  
       const accounts = await web3.eth.requestAccounts();
       setConnectedAccount(accounts[0]);
     } catch (err) {
       console.error(err);
     }
   };
+  
 
   return (
     <header className="sticky top-0 bg-white dark:bg-black border-b border-gray-200 dark:border-[#333] z-50">
@@ -205,12 +247,15 @@ export default function Navbar() {
             </button>
           )}
 
+          
+
           <WalletModal
             open={open}
             setOpen={setOpen}
             connectWallet={connectWallet}
             connectedAccount={connectedAccount}
             setConnectedAccount={setConnectedAccount}
+            error={error}
           />
         </div>
 
