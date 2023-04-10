@@ -25,8 +25,8 @@ import Web3 from "web3";
 import Radio from "@/contracts/Radio.json";
 import NFT from "@/contracts/NFT.json";
 import axios from "axios";
-import ProfileSkeleton from "@/components/ui/profile-skeleton";
-import SlugSkeleton from "@/components/ui/slug-skeleton";
+import ProfileSkeleton from "@/components/skeletons/profile-skeleton";
+import SlugSkeleton from "@/components/skeletons/slug-skeleton";
 
 const navigation = [
   { name: "Home", href: "#", icon: HomeIcon, current: false },

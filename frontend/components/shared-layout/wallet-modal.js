@@ -2,7 +2,7 @@ import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { LinkIcon } from "@heroicons/react/24/outline";
 
-import Notification from "./notification";
+import Notification from "../listen-ui/notification";
 
 export default function WalletModal({
   open,

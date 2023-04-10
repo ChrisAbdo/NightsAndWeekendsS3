@@ -21,9 +21,9 @@ import {
   EllipsisVerticalIcon,
   MagnifyingGlassIcon,
 } from "@heroicons/react/20/solid";
-import ProfileDropdown from "@/components/ui/profile-dropdown";
-import ProfileSkeleton from "@/components/ui/profile-skeleton";
-import ProfileTopSkeleton from "@/components/ui/profile-top-skeleton";
+import ProfileDropdown from "@/components/profile-ui/profile-dropdown";
+import ProfileSkeleton from "@/components/skeletons/profile-skeleton";
+import ProfileTopSkeleton from "@/components/skeletons/profile-top-skeleton";
 import Link from "next/link";
 
 const navigation = [
@@ -88,13 +88,11 @@ export default function Example() {
   const [position, setPosition] = useState("bottom");
   const [currentIndex, setCurrentIndex] = useState(0);
 
-
   useEffect(() => {
     loadProfileSongs();
   }, []);
 
   async function loadProfileSongs() {
-    
     const web3 = new Web3(window.ethereum);
 
     const networkId = await web3.eth.net.getId();
@@ -151,28 +149,26 @@ export default function Example() {
   }
 
   async function deleteMyNFT() {
-    
     const web3 = new Web3(window.ethereum);
     const networkId = await web3.eth.net.getId();
-  
+
     // Initialize Radio contract
     const radioContract = new web3.eth.Contract(
       Radio.abi,
       Radio.networks[networkId].address
     );
-  
+
     // Get the tokenId of the selected NFT
     const tokenId = nfts[currentIndex].tokenId;
-  
+
     // Call deleteNFT function from the Radio contract
     await radioContract.methods
       .deleteNFT(tokenId)
       .send({ from: window.ethereum.selectedAddress });
-  
+
     // Refresh the list of NFTs after deletion
     loadProfileSongs();
   }
-  
 
   return (
     <>
@@ -775,7 +771,7 @@ export default function Example() {
                                 <Menu.Item>
                                   {({ active }) => (
                                     <button
-                                    onClick={() => deleteMyNFT(nft.tokenId)}
+                                      onClick={() => deleteMyNFT(nft.tokenId)}
                                       className={classNames(
                                         active
                                           ? "bg-gray-100 dark:bg-[#111]"
@@ -883,43 +879,42 @@ export default function Example() {
                   <tbody className="divide-y divide-gray-100 dark:divide-[#333]">
                     {" "}
                     {nfts.length > 0 ? (
-  nfts.map((nft, i) => (
-    <tr key={nft.tokenId}>
-      <td className="w-full max-w-0 whitespace-nowrap px-6 py-3 text-sm font-medium ">
-        <div className="flex items-center space-x-3 lg:pl-2">
-          <img
-            className="h-8 w-8 max-w-none rounded-md"
-            src={nft.coverImage}
-          />
-          <a
-            href="#"
-            className="truncate hover:text-gray-600"
-          >
-            <span>{nft.title}</span>
-          </a>
-        </div>
-      </td>
-      <td className="px-6 py-3 text-sm font-medium text-gray-500">
-        <div className="flex items-center space-x-2">
-          <div className="flex flex-shrink-0 -space-x-1" />
+                      nfts.map((nft, i) => (
+                        <tr key={nft.tokenId}>
+                          <td className="w-full max-w-0 whitespace-nowrap px-6 py-3 text-sm font-medium ">
+                            <div className="flex items-center space-x-3 lg:pl-2">
+                              <img
+                                className="h-8 w-8 max-w-none rounded-md"
+                                src={nft.coverImage}
+                              />
+                              <a
+                                href="#"
+                                className="truncate hover:text-gray-600"
+                              >
+                                <span>{nft.title}</span>
+                              </a>
+                            </div>
+                          </td>
+                          <td className="px-6 py-3 text-sm font-medium text-gray-500">
+                            <div className="flex items-center space-x-2">
+                              <div className="flex flex-shrink-0 -space-x-1" />
 
-          <span className="flex-shrink-0 text-xs font-medium leading-5">
-            {nft.heatCount}
-          </span>
-        </div>
-      </td>
-      <td className="hidden whitespace-nowrap px-6 py-3 text-right text-sm text-gray-500 md:table-cell">
-        {nft.genre}
-      </td>
-      <td className="whitespace-nowrap px-6 py-3 text-right text-sm font-medium">
-        <ProfileDropdown />
-      </td>
-    </tr>
-  ))
-) : (
-  <ProfileSkeleton />
-)}
-
+                              <span className="flex-shrink-0 text-xs font-medium leading-5">
+                                {nft.heatCount}
+                              </span>
+                            </div>
+                          </td>
+                          <td className="hidden whitespace-nowrap px-6 py-3 text-right text-sm text-gray-500 md:table-cell">
+                            {nft.genre}
+                          </td>
+                          <td className="whitespace-nowrap px-6 py-3 text-right text-sm font-medium">
+                            <ProfileDropdown />
+                          </td>
+                        </tr>
+                      ))
+                    ) : (
+                      <ProfileSkeleton />
+                    )}
                   </tbody>
                 </table>
               </div>

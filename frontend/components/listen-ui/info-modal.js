@@ -1,7 +1,7 @@
 import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { MusicalNoteIcon, PhotoIcon } from "@heroicons/react/24/outline";
-import InfoDropdown from "./info-dropdown";
+import InfoDropdown from "@/components/profile-ui/info-dropdown";
 
 export default function InfoModal({ open, setOpen, nft }) {
   return (

@@ -8,11 +8,11 @@ import {
   ChevronUpIcon,
   TrashIcon,
 } from "@heroicons/react/20/solid";
-import Divider from "@/components/divider";
-import RadioRedirect from "@/components/radio-redirect";
+import Divider from "@/components/upload-ui/divider";
+import RadioRedirect from "@/components/upload-ui/radio-redirect";
 import classnames from "classnames";
 
-import Notification from "@/components/ui/notification";
+import Notification from "@/components/listen-ui/notification";
 import * as Select from "@radix-ui/react-select";
 
 const products = [
@@ -359,33 +359,33 @@ export default function Upload() {
                               </Select.Label>
                               <SelectItem
                                 className="hover:bg-gray-200 dark:hover:bg-[#111]"
-                                value="apple"
+                                value="Lofi"
                               >
-                                Apple
+                                Lofi
                               </SelectItem>
                               <SelectItem
                                 className="hover:bg-gray-200 dark:hover:bg-[#111]"
-                                value="banana"
+                                value="Hip Hop"
                               >
-                                Banana
+                                Hip Hop
                               </SelectItem>
                               <SelectItem
                                 className="hover:bg-gray-200 dark:hover:bg-[#111]"
-                                value="blueberry"
+                                value="R&B"
                               >
-                                Blueberry
+                                R&B
                               </SelectItem>
                               <SelectItem
                                 className="hover:bg-gray-200 dark:hover:bg-[#111]"
-                                value="grapes"
+                                value="Pop"
                               >
-                                Grapes
+                                Pop
                               </SelectItem>
                               <SelectItem
                                 className="hover:bg-gray-200 dark:hover:bg-[#111]"
-                                value="pineapple"
+                                value="Rock"
                               >
-                                Pineapple
+                                Rock
                               </SelectItem>
                             </Select.Group>
                           </Select.Viewport>

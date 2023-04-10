@@ -1,13 +1,13 @@
 import React from "react";
 
-import AsciiFireAnimation from "@/components/ascii-fire";
-import HeaderSection from "@/components/header-section";
-import ParallaxText from "@/components/parallax-text";
-import ContentSection from "@/components/content-section";
+import AsciiFireAnimation from "@/components/index-ui/ascii-fire";
+import HeaderSection from "@/components/index-ui/header-section";
+import ParallaxText from "@/components/shared-layout/parallax-text";
+import ContentSection from "@/components/index-ui/content-section";
 import Link from "next/link";
-import Stats from "@/components/stats";
-import ContactMe from "@/components/contact-me";
-import Footer from "@/components/footer";
+import Stats from "@/components/index-ui/stats";
+import ContactMe from "@/components/index-ui/contact-me";
+import Footer from "@/components/index-ui/footer";
 
 export default function Index() {
   return (

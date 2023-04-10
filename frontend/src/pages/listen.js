@@ -6,8 +6,8 @@ import NFT from "@/contracts/NFT.json";
 import axios from "axios";
 import { motion } from "framer-motion";
 import { Dialog, Transition } from "@headlessui/react";
-import ParallaxText from "@/components/parallax-text";
-import Notification from "@/components/ui/notification";
+import ParallaxText from "@/components/shared-layout/parallax-text";
+import Notification from "@/components/listen-ui/notification";
 import {
   Bars3Icon,
   CalendarIcon,
@@ -24,41 +24,15 @@ import {
 } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { FireIcon } from "@heroicons/react/20/solid";
-import InfoModal from "@/components/ui/info-modal";
-import HeatSlideover from "@/components/ui/heat-slideover";
-import ProgressBar from "@/components/ui/song-progress";
-import QueueSkeleton from "@/components/ui/queue-skeleton";
-import LeaderboardSkeleton from "@/components/ui/leaderboard-skeleton";
-import AudioPlayerSkeleton from "@/components/ui/audio-player-skeleton";
-import RecentSkeleton from "@/components/ui/recent-skeleton";
-import CommandPalette from "@/components/ui/command-palette";
+import InfoModal from "@/components/listen-ui/info-modal";
+import HeatSlideover from "@/components/listen-ui/heat-slideover";
+import ProgressBar from "@/components/listen-ui/song-progress";
+import QueueSkeleton from "@/components/skeletons/queue-skeleton";
+import LeaderboardSkeleton from "@/components/skeletons/leaderboard-skeleton";
+import AudioPlayerSkeleton from "@/components/skeletons/audio-player-skeleton";
+import RecentSkeleton from "@/components/skeletons/recent-skeleton";
+import CommandPalette from "@/components/listen-ui/command-palette";
 
-const people = [
-  {
-    name: "Leonard Krasner",
-    handle: "leonardkrasner",
-    imageUrl:
-      "https://images.unsplash.com/photo-1519345182560-3f2917c472ef?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-  },
-  {
-    name: "Floyd Miles",
-    handle: "floydmiles",
-    imageUrl:
-      "https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-  },
-  {
-    name: "Emily Selman",
-    handle: "emilyselman",
-    imageUrl:
-      "https://images.unsplash.com/photo-1502685104226-ee32379fefbe?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-  },
-  {
-    name: "Kristin Watson",
-    handle: "kristinwatson",
-    imageUrl:
-      "https://images.unsplash.com/photo-1500917293891-ef795e70e1f6?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-  },
-];
 const navigation = [
   { name: "Dashboard", href: "#", icon: HomeIcon, current: true },
   { name: "Team", href: "#", icon: UsersIcon, current: false },
@@ -156,10 +130,10 @@ export default function Listen() {
 
   async function loadSongs() {
     console.log("Loading songs...");
-    const infuraUrl = "https://polygon-mumbai.infura.io/v3/bc3a18f867074b7186d877cb4d45675a";
-    const web3 = new Web3(infuraUrl);
+    // const infuraUrl = "https://polygon-mumbai.infura.io/v3/bc3a18f867074b7186d877cb4d45675a";
+    // const web3 = new Web3(infuraUrl);
     
-    // const web3 = new Web3(window.ethereum);
+    const web3 = new Web3(window.ethereum);
 
     const networkId = await web3.eth.net.getId();
 
@@ -264,13 +238,15 @@ export default function Listen() {
             "You have given " +
               heatCount +
               " heat to " +
-              nfts[currentIndex].title
+              nfts[currentIndex].title + ". Please refresh the page to see the updated heat count."
           );
         });
     } catch (err) {
       console.log(err);
     }
   }
+
+  
 
   function handleNext() {
     setDirection("right");

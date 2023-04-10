@@ -9,7 +9,7 @@ export default function HeatSlideover({
   setHeatOpen,
   nft,
   handleGiveHeat,
-  heatCount,
+  
   setHeatCount,
 }) {
   return (

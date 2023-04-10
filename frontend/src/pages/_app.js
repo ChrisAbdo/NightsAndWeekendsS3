@@ -5,7 +5,7 @@ import { ThemeProvider } from "next-themes";
 
 import { Source_Code_Pro } from "next/font/google";
 
-import Navbar from "@/components/ui/navbar";
+import Navbar from "@/components/shared-layout/navbar";
 
 const sourceCodePro = Source_Code_Pro({
   weight: "400",
