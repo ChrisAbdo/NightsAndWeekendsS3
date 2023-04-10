@@ -130,9 +130,10 @@ export default function Listen() {
 
   async function loadSongs() {
     console.log("Loading songs...");
-    const infuraUrl = "https://polygon-mumbai.infura.io/v3/bc3a18f867074b7186d877cb4d45675a";
+    const infuraUrl =
+      "https://polygon-mumbai.infura.io/v3/bc3a18f867074b7186d877cb4d45675a";
     const web3 = new Web3(infuraUrl);
-    
+
     // const web3 = new Web3(window.ethereum);
 
     const networkId = await web3.eth.net.getId();
@@ -238,15 +239,14 @@ export default function Listen() {
             "You have given " +
               heatCount +
               " heat to " +
-              nfts[currentIndex].title + ". Please refresh the page to see the updated heat count."
+              nfts[currentIndex].title +
+              ". Please refresh the page to see the updated heat count."
           );
         });
     } catch (err) {
       console.log(err);
     }
   }
-
-  
 
   function handleNext() {
     setDirection("right");
@@ -599,8 +599,8 @@ export default function Listen() {
                   </div>
 
                   <div className="flex justify-center mt-12">
-                    <div className="flex justify-between space-x-2">
-                      <h1 className="text-md font-semibold text-gray-900 dark:text-gray-100">
+                    <div className="flex justify-between items-center space-x-2">
+                      <h1 className="text-xs sm:text-sm font-semibold text-gray-900 dark:text-gray-100">
                         {!isNaN(audioRef.current?.currentTime)
                           ? `${Math.floor(audioRef.current.currentTime / 60)}:${
                               Math.floor(audioRef.current.currentTime % 60) < 10
@@ -617,7 +617,7 @@ export default function Listen() {
                         setProgress={setProgress}
                       />
 
-                      <h1 className="text-md font-semibold text-gray-900 dark:text-gray-100">
+                      <h1 className="text-xs sm:text-sm font-semibold text-gray-900 dark:text-gray-100">
                         {!isNaN(duration) && audioRef.current?.currentTime
                           ? `${Math.floor(
                               (duration - audioRef.current.currentTime) / 60

@@ -250,6 +250,10 @@ export default function Navbar() {
             </button>
           )}
 
+            <div className="flex items-center ml-4">
+          <DarkModeToggle />
+          </div>
+
           <WalletModal
             open={open}
             setOpen={setOpen}
@@ -261,21 +265,25 @@ export default function Navbar() {
         </div>
 
         <div className="flex lg:hidden space-x-2">
-          {/* <button
-            type="button"
-            className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
-            onClick={() => setMobileMenuOpen(true)}
-          >
-            <span className="sr-only">Open main menu</span>
-            <Bars3Icon className="h-6 w-6" aria-hidden="true" />
-          </button> */}
-          <button
-            type="button"
-            onClick={() => setOpen(true)}
-            className="rounded-md bg-transparent px-3 py-2 text-sm font-semibold text-black dark:text-white shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-[#333] hover:bg-gray-200 dark:hover:bg-[#333] transition duration-200"
-          >
-            <span>Connect Wallet</span>
-          </button>
+          {connectedAccount && (
+            <button
+              type="button"
+              onClick={() => setOpen(true)}
+              className="rounded-md bg-transparent px-5 py-2 text-sm font-semibold text-black dark:text-white shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-[#333] hover:bg-gray-200 dark:hover:bg-[#333] transition duration-200"
+            >
+              {connectedAccount.slice(0, 5)}...{connectedAccount.slice(-4)}
+            </button>
+          )}
+
+          {!connectedAccount && (
+            <button
+              type="button"
+              onClick={() => setOpen(true)}
+              className="rounded-md bg-transparent px-3 py-2 text-sm font-semibold text-black dark:text-white shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-[#333] hover:bg-gray-200 dark:hover:bg-[#333] transition duration-200"
+            >
+              <span>Connect Wallet</span>
+            </button>
+          )}
           <div className="flex items-center">
             <DarkModeToggle />
           </div>
