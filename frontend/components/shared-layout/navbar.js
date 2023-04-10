@@ -47,7 +47,6 @@ export default function Navbar() {
   const [error, setError] = useState(false);
 
   const web3 = new Web3(Web3.givenProvider);
-  
 
   const [connectedAccount, setConnectedAccount] = useState("");
 
@@ -102,7 +101,10 @@ export default function Navbar() {
     // Cleanup function
     return () => {
       if (window.ethereum) {
-        window.ethereum.removeListener("accountsChanged", handleAccountsChanged);
+        window.ethereum.removeListener(
+          "accountsChanged",
+          handleAccountsChanged
+        );
         window.ethereum.removeListener("disconnect", handleDisconnect);
       }
     };
@@ -111,18 +113,19 @@ export default function Navbar() {
   const connectWallet = async () => {
     try {
       if (!web3 || !web3.currentProvider) {
-        console.error("No Ethereum provider found. Please install MetaMask or use a compatible browser.");
-        setError(true)
+        console.error(
+          "No Ethereum provider found. Please install MetaMask or use a compatible browser."
+        );
+        setError(true);
         return;
       }
-  
+
       const accounts = await web3.eth.requestAccounts();
       setConnectedAccount(accounts[0]);
     } catch (err) {
       console.error(err);
     }
   };
-  
 
   return (
     <header className="sticky top-0 bg-white dark:bg-black border-b border-gray-200 dark:border-[#333] z-50">
@@ -139,7 +142,7 @@ export default function Navbar() {
             </h1>
           </Link>
         </div>
-        <div className="flex lg:hidden">
+        {/* <div className="flex lg:hidden">
           <button
             type="button"
             className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
@@ -148,7 +151,7 @@ export default function Navbar() {
             <span className="sr-only">Open main menu</span>
             <Bars3Icon className="h-6 w-6" aria-hidden="true" />
           </button>
-        </div>
+        </div> */}
         <Popover.Group className="hidden lg:flex lg:gap-x-12">
           <Popover className="relative">
             <Popover.Button className="flex items-center gap-x-1 text-sm font-semibold leading-6 text-black dark:text-white">
@@ -247,8 +250,6 @@ export default function Navbar() {
             </button>
           )}
 
-          
-
           <WalletModal
             open={open}
             setOpen={setOpen}
@@ -259,8 +260,26 @@ export default function Navbar() {
           />
         </div>
 
-        <div className="mr-4" />
-        <DarkModeToggle />
+        <div className="flex lg:hidden space-x-2">
+          {/* <button
+            type="button"
+            className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
+            onClick={() => setMobileMenuOpen(true)}
+          >
+            <span className="sr-only">Open main menu</span>
+            <Bars3Icon className="h-6 w-6" aria-hidden="true" />
+          </button> */}
+          <button
+            type="button"
+            onClick={() => setOpen(true)}
+            className="rounded-md bg-transparent px-3 py-2 text-sm font-semibold text-black dark:text-white shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-[#333] hover:bg-gray-200 dark:hover:bg-[#333] transition duration-200"
+          >
+            <span>Connect Wallet</span>
+          </button>
+          <div className="flex items-center">
+            <DarkModeToggle />
+          </div>
+        </div>
       </nav>
       <Dialog
         as="div"
