@@ -57,7 +57,8 @@ export default function Index() {
           <Footer />
         </div>
 
-        <div className="fixed inset-0 flex items-center justify-center flex-col z-10">
+        <div className="fixed inset-0 flex items-center justify-center flex-col z-10 ">
+          <div className="flex items-center justify-center flex-col bg-white dark:bg-black">
           <div>
             <h1 className="text-5xl">Welcome to Etherwav</h1>
           </div>
@@ -74,6 +75,7 @@ export default function Index() {
             >
               Upload to Etherwav
             </Link>
+          </div>
           </div>
         </div>
       </div>
