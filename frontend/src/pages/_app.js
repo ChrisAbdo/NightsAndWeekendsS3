@@ -5,7 +5,12 @@ import { ThemeProvider } from "next-themes";
 
 import { Source_Code_Pro } from "next/font/google";
 
-import Navbar from "@/components/shared-layout/navbar";
+import dynamic from "next/dynamic";
+// import Navbar from "@/components/shared-layout/navbar";
+const Navbar = dynamic(() => import("@/components/shared-layout/navbar"), {
+  loading: () => <p>Loading...</p>,
+})
+
 
 const sourceCodePro = Source_Code_Pro({
   weight: "400",

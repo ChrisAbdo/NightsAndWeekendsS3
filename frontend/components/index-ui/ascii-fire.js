@@ -1,7 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
+import { motion, useAnimation } from "framer-motion";
 
 const AsciiFireAnimation = () => {
   const preRef = useRef(null);
+  const controls = useAnimation();
   const [width, setWidth] = useState(() => {
     if (typeof window !== "undefined") {
       return Math.floor(window.innerWidth / 5);
@@ -48,17 +50,20 @@ const AsciiFireAnimation = () => {
       setTimeout(f, 30);
     }
     f();
+    controls.start({ opacity: 1, transition: { duration: 10 } }); // Duration increased to 4 seconds
   }, [width]);
 
   return (
     <div className="overflow-hidden">
-      <pre
+      <motion.pre
         ref={preRef}
         className="font-bold text-orange-500 mx-auto whitespace-pre"
+        initial={{ opacity: 0 }}
+        animate={controls}
       >
         This animated fire in plain ASCII art needs JavaScript to run in your
         web browser.
-      </pre>
+      </motion.pre>
     </div>
   );
 };

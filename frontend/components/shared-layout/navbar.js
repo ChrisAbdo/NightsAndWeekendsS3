@@ -46,32 +46,35 @@ export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const web3 = new Web3(Web3.givenProvider);
+  
 
   const [connectedAccount, setConnectedAccount] = useState("");
 
-  useEffect(() => {
-    const loadConnectedAccount = async () => {
-      const accounts = await web3.eth.getAccounts();
-      if (accounts.length > 0) {
-        setConnectedAccount(accounts[0]);
-      }
-    };
+  // useEffect(() => {
+  //   const loadConnectedAccount = async () => {
+  //     const accounts = await web3.eth.getAccounts();
+  //     if (accounts.length > 0) {
+  //       setConnectedAccount(accounts[0]);
+  //     }
+  //   };
 
-    // event listener for MetaMask account change
-    window.ethereum.on("accountsChanged", function (accounts) {
-      setConnectedAccount(accounts[0]);
-    });
+  //   // event listener for MetaMask account change
+  //   window.ethereum.on("accountsChanged", function (accounts) {
+  //     setConnectedAccount(accounts[0]);
+  //   });
 
-    // event listener for MetaMask disconnect
-    window.ethereum.on("disconnect", function (error) {
-      setConnectedAccount(null);
-    });
+  //   // event listener for MetaMask disconnect
+  //   window.ethereum.on("disconnect", function (error) {
+  //     setConnectedAccount(null);
+  //   });
 
-    loadConnectedAccount();
-  }, []);
+  //   loadConnectedAccount();
+  // }, []);
 
   const connectWallet = async () => {
     try {
+
+
       const accounts = await web3.eth.requestAccounts();
       setConnectedAccount(accounts[0]);
     } catch (err) {
