@@ -1,10 +1,10 @@
 import React from "react";
 import * as Progress from "@radix-ui/react-progress";
 
-const SongProgress = ({ progress }) => {
+const ProgressBar = ({ progress }) => {
   return (
     <Progress.Root
-      className="relative overflow-hidden bg-gray-200 dark:bg-[#111] rounded-md w-[300px] h-[25px]"
+      className="relative overflow-hidden bg-gray-200 dark:bg-[#111] rounded-md w-full h-[25px]"
       style={{
         transform: "translateZ(0)",
       }}
@@ -18,4 +18,4 @@ const SongProgress = ({ progress }) => {
   );
 };
 
-export default SongProgress;
+export default ProgressBar;

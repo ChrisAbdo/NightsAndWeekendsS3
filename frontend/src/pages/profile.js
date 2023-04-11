@@ -1,7 +1,8 @@
-import { Fragment, useState, useEffect, useRef } from "react";
+import { Fragment, useState, useEffect, useRef, createRef } from "react";
 
 import axios from "axios";
 import Image from "next/image";
+import { motion, AnimatePresence } from "framer-motion";
 
 import Web3 from "web3";
 import Radio from "@/contracts/Radio.json";
@@ -13,6 +14,7 @@ import {
   ClockIcon,
   FireIcon,
   HomeIcon,
+  PauseCircleIcon,
   PlayCircleIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
@@ -26,6 +28,8 @@ import ProfileDropdown from "@/components/profile-ui/profile-dropdown";
 import ProfileSkeleton from "@/components/skeletons/profile-skeleton";
 import ProfileTopSkeleton from "@/components/skeletons/profile-top-skeleton";
 import Link from "next/link";
+import ProgressBar from "@/components/listen-ui/song-progress";
+import SongProgress from "@/components/listen-ui/song-progress";
 
 const navigation = [
   { name: "Home", href: "#", icon: HomeIcon, current: true },
@@ -37,45 +41,6 @@ const teams = [
   { name: "Human Resources", href: "#", bgColorClass: "bg-green-500" },
   { name: "Customer Success", href: "#", bgColorClass: "bg-yellow-500" },
 ];
-const projects = [
-  {
-    id: 1,
-    title: "GraphQL API",
-    initials: "GA",
-    team: "Engineering",
-    members: [
-      {
-        name: "Dries Vincent",
-        handle: "driesvincent",
-        imageUrl:
-          "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-      },
-      {
-        name: "Lindsay Walton",
-        handle: "lindsaywalton",
-        imageUrl:
-          "https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-      },
-      {
-        name: "Courtney Henry",
-        handle: "courtneyhenry",
-        imageUrl:
-          "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-      },
-      {
-        name: "Tom Cook",
-        handle: "tomcook",
-        imageUrl:
-          "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-      },
-    ],
-    totalMembers: 12,
-    lastUpdated: "March 17, 2020",
-    pinned: true,
-    bgColorClass: "bg-pink-600",
-  },
-  // More projects...
-];
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -85,19 +50,26 @@ export default function Example() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [nfts, setNfts] = useState([]);
   const [topThreeNfts, setTopThreeNfts] = useState([]);
-  const [ascending, setAscending] = useState(false);
-  const [position, setPosition] = useState("bottom");
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const audioRef = useRef(null);
+  const [audioRefs, setAudioRefs] = useState({});
+  const [isPlaying, setIsPlaying] = useState(null);
 
-  
+  const audioRef = useRef(null);
 
   useEffect(() => {
     loadProfileSongs();
   }, []);
 
-  
+  useEffect(() => {
+    // Create refs for each nft
+    const newAudioRefs = nfts.reduce((acc, nft) => {
+      acc[nft.tokenId] = createRef();
+      return acc;
+    }, {});
+
+    setAudioRefs(newAudioRefs);
+  }, [nfts]);
 
   async function loadProfileSongs() {
     const web3 = new Web3(window.ethereum);
@@ -176,6 +148,25 @@ export default function Example() {
     // Refresh the list of NFTs after deletion
     loadProfileSongs();
   }
+
+  const slideUp = {
+    hidden: { y: "100%" },
+    visible: { y: "0%", transition: { duration: 0.5 } },
+    exit: { y: "100%", transition: { duration: 0.4 } },
+  };
+
+  const textVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: { y: 0, opacity: 1, transition: { duration: 0.9 } },
+  };
+
+  const currentPlayingSong = nfts.find((nft) => nft.tokenId === isPlaying);
+  const currentSongImage =
+    currentPlayingSong?.coverImage || "https://picsum.photos/200";
+  const currentSongName = currentPlayingSong?.title || "Song Name";
+  const currentSongArtist = currentPlayingSong?.seller || "Artist Name";
+  const currentSongHeat = currentPlayingSong?.heatCount || 0;
+  const currentSongGenre = currentPlayingSong?.genre || "Genre";
 
   return (
     <>
@@ -895,16 +886,35 @@ export default function Example() {
                           <td className="w-full max-w-0 whitespace-nowrap px-6 py-3 text-sm font-medium ">
                             <div className="flex items-center space-x-3 lg:pl-2">
                               <button
-                                onClick={() => audioRef.current.play()}
+                                onClick={() => {
+                                  const audioElement =
+                                    audioRefs[nft.tokenId].current;
+                                  if (isPlaying === nft.tokenId) {
+                                    audioElement.pause();
+                                    setIsPlaying(null);
+                                  } else {
+                                    if (isPlaying !== null) {
+                                      // Pause the currently playing audio
+                                      audioRefs[isPlaying].current.pause();
+                                    }
+                                    audioElement.play();
+                                    setIsPlaying(nft.tokenId);
+                                  }
+                                }}
                                 className="group inline-flex truncate text-sm"
                               >
-                                <PlayCircleIcon className="h-5 w-5 text-gray-400 group-hover:text-gray-500" />
+                                {isPlaying === nft.tokenId ? (
+                                  <PauseCircleIcon className="h-5 w-5 text-gray-400 group-hover:text-gray-500" />
+                                ) : (
+                                  <PlayCircleIcon className="h-5 w-5 text-gray-400 group-hover:text-gray-500" />
+                                )}
                               </button>
 
                               <audio
                                 src={nft.image}
-                                ref={audioRef}
-
+                                ref={audioRefs[nft.tokenId]}
+                                // on ended, set isPlaying to null
+                                onEnded={() => setIsPlaying(null)}
                                 className="h-12 w-full hidden"
                                 controls
                               />
@@ -952,73 +962,59 @@ export default function Example() {
         </div>
 
         {/* Audio Player */}
-        <div class="fixed inset-x-0 bottom-0 flex w-full bg-white dark:bg-black shadow-lg shadow-black/5 ring-1 ring-slate-700/10 dark:ring-[#333]">
-          <div class="flex items-center space-x-4 px-6 py-4">
-            <svg class="h-6 w-6 flex-none" fill="none">
-              <path
-                d="M6.22 11.03a.75.75 0 1 0 1.06-1.06l-1.06 1.06ZM3 6.75l-.53-.53a.75.75 0 0 0 0 1.06L3 6.75Zm4.28-3.22a.75.75 0 0 0-1.06-1.06l1.06 1.06ZM13.5 18a.75.75 0 0 0 0 1.5V18ZM7.28 9.97 3.53 6.22 2.47 7.28l3.75 3.75 1.06-1.06ZM3.53 7.28l3.75-3.75-1.06-1.06-3.75 3.75 1.06 1.06Zm16.72 5.47c0 2.9-2.35 5.25-5.25 5.25v1.5a6.75 6.75 0 0 0 6.75-6.75h-1.5ZM15 7.5c2.9 0 5.25 2.35 5.25 5.25h1.5A6.75 6.75 0 0 0 15 6v1.5ZM15 6H3v1.5h12V6Zm0 12h-1.5v1.5H15V18Z"
-                fill="#64748B"
-              ></path>
-              <path
-                d="M3 15.75h.75V21"
-                stroke="#64748B"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              ></path>
-              <path
-                d="M9 16.5A.75.75 0 0 0 9 15v1.5Zm-2.25-.75V15a.75.75 0 0 0-.75.75h.75Zm0 2.25H6c0 .414.336.75.75.75V18Zm0 2.25a.75.75 0 0 0 0 1.5v-1.5ZM9 15H6.75v1.5H9V15Zm-3 .75V18h1.5v-2.25H6Zm.75 3h1.5v-1.5h-1.5v1.5Zm1.5 1.5h-1.5v1.5h1.5v-1.5ZM9 19.5a.75.75 0 0 1-.75.75v1.5a2.25 2.25 0 0 0 2.25-2.25H9Zm-.75-.75a.75.75 0 0 1 .75.75h1.5a2.25 2.25 0 0 0-2.25-2.25v1.5Z"
-                fill="#64748B"
-              ></path>
-            </svg>
-            <svg class="h-10 w-10 flex-none" fill="none">
-              <circle cx="20" cy="20" r="20" fill="#0F172A"></circle>
-              <path
-                fill-rule="evenodd"
-                clip-rule="evenodd"
-                d="M13.5 13.653c0-1.427 1.529-2.33 2.779-1.643l11.54 6.347c1.295.712 1.295 2.573 0 3.286L16.28 27.99c-1.25.687-2.779-.217-2.779-1.643V13.653Z"
-                fill="#fff"
-              ></path>
-            </svg>
-            <svg class="h-6 w-6 flex-none" fill="none">
-              <path
-                d="M16.72 9.97a.75.75 0 1 0 1.06 1.06l-1.06-1.06ZM21 6.75l.53.53a.75.75 0 0 0 0-1.06l-.53.53Zm-3.22-4.28a.75.75 0 1 0-1.06 1.06l1.06-1.06ZM10.5 19.5a.75.75 0 0 0 0-1.5v1.5Zm3.75-4.5a.75.75 0 0 0 0 1.5V15Zm.75.75h.75A.75.75 0 0 0 15 15v.75ZM14.25 21a.75.75 0 0 0 1.5 0h-1.5Zm6-4.5a.75.75 0 0 0 0-1.5v1.5ZM18 15.75V15a.75.75 0 0 0-.75.75H18ZM18 18h-.75c0 .414.336.75.75.75V18Zm0 2.25a.75.75 0 0 0 0 1.5v-1.5Zm-.22-9.22 3.75-3.75-1.06-1.06-3.75 3.75 1.06 1.06Zm3.75-4.81-3.75-3.75-1.06 1.06 3.75 3.75 1.06-1.06ZM2.25 12.75A6.75 6.75 0 0 0 9 19.5V18a5.25 5.25 0 0 1-5.25-5.25h-1.5ZM9 6a6.75 6.75 0 0 0-6.75 6.75h1.5C3.75 9.85 6.1 7.5 9 7.5V6Zm0 1.5h12V6H9v1.5Zm0 12h1.5V18H9v1.5Zm5.25-3H15V15h-.75v1.5Zm0-.75V21h1.5v-5.25h-1.5Zm6-.75H18v1.5h2.25V15Zm-3 .75V18h1.5v-2.25h-1.5Zm.75 3h1.5v-1.5H18v1.5Zm1.5 1.5H18v1.5h1.5v-1.5Zm.75-.75a.75.75 0 0 1-.75.75v1.5a2.25 2.25 0 0 0 2.25-2.25h-1.5Zm-.75-.75a.75.75 0 0 1 .75.75h1.5a2.25 2.25 0 0 0-2.25-2.25v1.5Z"
-                fill="#64748B"
-              ></path>
-            </svg>
-          </div>
-          <div class="flex flex-auto items-center border-l border-slate-200/60 pl-6 pr-4 text-[0.8125rem] leading-5 text-slate-700">
-            <div>00:51</div>
-            <div class="ml-4 flex flex-auto rounded-full bg-slate-100">
-              <div class="h-2 w-1/3 flex-none rounded-l-full rounded-r-[1px] bg-indigo-600"></div>
-              <div class="-my-[0.3125rem] ml-0.5 h-[1.125rem] w-1 rounded-full bg-indigo-600"></div>
-            </div>
-            <div class="ml-4">55:43</div>
-            <svg class="ml-6 h-6 w-6 flex-none" fill="none">
-              <path
-                d="M14 5 9 9H6a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h3l5 4V5Z"
-                fill="#64748B"
-                stroke="#64748B"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              ></path>
-              <path
-                d="M19 12c0-1.5-1-2-1-2v4s1-.5 1-2Z"
-                stroke="#64748B"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              ></path>
-            </svg>
-            <svg class="ml-6 h-6 w-6 flex-none" fill="none">
-              <path
-                d="M12 8v1a1 1 0 0 0 1-1h-1Zm0 0h-1a1 1 0 0 0 1 1V8Zm0 0V7a1 1 0 0 0-1 1h1Zm0 0h1a1 1 0 0 0-1-1v1ZM12 12v1a1 1 0 0 0 1-1h-1Zm0 0h-1a1 1 0 0 0 1 1v-1Zm0 0v-1a1 1 0 0 0-1 1h1Zm0 0h1a1 1 0 0 0-1-1v1ZM12 16v1a1 1 0 0 0 1-1h-1Zm0 0h-1a1 1 0 0 0 1 1v-1Zm0 0v-1a1 1 0 0 0-1 1h1Zm0 0h1a1 1 0 0 0-1-1v1Z"
-                fill="#64748B"
-              ></path>
-            </svg>
-          </div>
-        </div>
+        <AnimatePresence>
+          {isPlaying !== null && (
+            <motion.div
+              className="fixed inset-x-0 bottom-0 flex w-full bg-white dark:bg-black shadow-lg shadow-black/5 ring-1 ring-slate-700/10 dark:ring-[#333]"
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+              variants={slideUp}
+            >
+              <div className="flex w-full justify-between items-center px-6 py-4">
+                <div className="flex items-center">
+                  <img
+                    className="h-12 w-12 rounded-md mr-4"
+                    src={currentSongImage}
+                    alt="Song Cover"
+                  />
+                  <div>
+                    <motion.h1
+                      className="text-lg font-medium text-gray-900 dark:text-gray-100 truncate w-full"
+                      variants={textVariants}
+                    >
+                      {currentSongName}
+                    </motion.h1>
+                    <motion.p
+                      className="text-sm font-medium text-gray-500 dark:text-gray-400 m-0"
+                      variants={textVariants}
+                    >
+                      {currentSongArtist.slice(0, 5)}...
+                      {currentSongArtist.slice(currentSongArtist.length - 5)}
+                    </motion.p>
+                    <motion.p
+                      className="text-sm font-medium text-gray-500 dark:text-gray-400 m-0"
+                      variants={textVariants}
+                    >
+                      Heat: {currentSongHeat}{" "}
+                      <FireIcon className="h-4 w-4 inline-block" />
+                    </motion.p>
+                    <motion.p
+                      className="text-sm font-medium text-gray-500 dark:text-gray-400 m-0"
+                      variants={textVariants}
+                    >
+                      Genre: {currentSongGenre}
+                    </motion.p>
+                  </div>
+                </div>
+
+                <div className="flex items-center">
+                  <FireIcon className="h-6 w-6 text-orange-600 animate-pulse" />
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </>
   );
