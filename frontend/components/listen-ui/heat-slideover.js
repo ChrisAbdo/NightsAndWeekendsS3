@@ -96,7 +96,7 @@ export default function HeatSlideover({
                             </div>
                             <button
                               type="button"
-                              className="ml-4 flex h-8 w-8 items-center justify-center rounded-full bg-white text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                              className="ml-4 flex h-8 w-8 items-center justify-center rounded-full bg-white text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500"
                             >
                               <HeartIcon
                                 className="h-6 w-6"
@@ -167,7 +167,8 @@ export default function HeatSlideover({
                                 type="number"
                                 name="company-website"
                                 id="company-website"
-                                className="block w-full min-w-0 flex-1 bg-white dark:bg-black rounded-none rounded-r-md border-0 py-1.5 ring-1 ring-inset ring-gray-300 dark:ring-[#333] placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                autoComplete="off"
+                                className="block w-full min-w-0 flex-1 bg-white dark:bg-black rounded-none rounded-r-md border-0 py-1.5 ring-1 ring-inset ring-gray-300 dark:ring-[#333] placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6"
                                 placeholder="0"
                                 onChange={(event) =>
                                   setHeatCount(event.target.value)
@@ -180,7 +181,7 @@ export default function HeatSlideover({
                           {!heatButtonLoading && (
                             <button
                               type="button"
-                              className={`w-full rounded-md bg-orange-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-orange-600/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 ${
+                              className={`w-full rounded-md bg-orange-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-orange-600/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600 ${
                                 heatCount === 0
                                   ? "cursor-not-allowed"
                                   : "cursor-pointer"
@@ -195,7 +196,7 @@ export default function HeatSlideover({
                           {heatButtonLoading && (
                             <button
                               type="button"
-                              className="flex items-center justify-center w-full rounded-md bg-orange-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-orange-600/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                              className="flex items-center justify-center w-full rounded-md bg-orange-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-orange-600/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
                               onClick={handleGiveHeat}
                             >
                               <svg

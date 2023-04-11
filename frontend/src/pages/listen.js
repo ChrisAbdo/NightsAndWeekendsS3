@@ -88,6 +88,8 @@ export default function Listen() {
   const [show, setShow] = useState(false);
   const [notificationText, setNotificationText] = useState("");
   const [notificationDescription, setNotificationDescription] = useState("");
+  const [intervalId, setIntervalId] = useState(null);
+  const [startTime, setStartTime] = useState(null);
 
   const audioRef = useRef(null);
 
@@ -99,6 +101,9 @@ export default function Listen() {
     if (audioRef.current) {
       // Set initial progress to 0
       setProgress(0);
+
+      // Set the start time of the audio
+      setStartTime(Date.now() / 1000);
 
       // Update duration when the song changes
       const updateDuration = () => {
@@ -121,6 +126,26 @@ export default function Listen() {
       };
     }
   }, [currentIndex]);
+
+  useEffect(() => {
+    // Clear the interval when the song changes
+    clearInterval(intervalId);
+
+    // Set up a new interval to update the progress bar
+    const newIntervalId = setInterval(() => {
+      if (audioRef.current && !audioRef.current.paused) {
+        const currentTime = Date.now() / 1000 - startTime;
+        const newProgress = Math.floor((currentTime / duration) * 100);
+        setProgress(newProgress);
+      }
+    }, 1000);
+    setIntervalId(newIntervalId);
+
+    // Clean up the interval when the component unmounts or the song changes
+    return () => {
+      clearInterval(newIntervalId);
+    };
+  }, [audioRef.current, duration, startTime, currentIndex]);
 
   // use effect for meta key and k to open command palette
   useEffect(() => {
@@ -286,6 +311,10 @@ export default function Listen() {
     setDirection("left");
     setCurrentIndex(currentIndex === 0 ? nfts.length - 1 : currentIndex - 1);
     setIsPlaying(true);
+  }
+
+  function resetProgressBar() {
+    setProgress(0);
   }
 
   return (
@@ -464,18 +493,16 @@ export default function Listen() {
                   </button>
 
                   <div
-  onClick={() => setCommandOpen(true)}
-  className="absolute space-x-1 cursor-pointer inset-y-0 right-0 flex py-1.5 pr-1.5"
->
-  <kbd className="inline-flex justify-center items-center rounded bg-gray-100 dark:bg-[#111] border border-gray-200 dark:border-[#333] px-1 font-sans text-xs text-gray-400 w-6 h-6">
-    ⌘
-  </kbd>
-  <kbd className="inline-flex justify-center items-center rounded bg-gray-100 dark:bg-[#111] border border-gray-200 dark:border-[#333] px-1 font-sans text-xs text-gray-400 w-6 h-6">
-    K
-  </kbd>
-</div>
-
-
+                    onClick={() => setCommandOpen(true)}
+                    className="absolute space-x-1 cursor-pointer inset-y-0 right-0 flex py-1.5 pr-1.5"
+                  >
+                    <kbd className="inline-flex justify-center items-center rounded bg-gray-100 dark:bg-[#111] border border-gray-200 dark:border-[#333] px-1 font-sans text-xs text-gray-400 w-6 h-6">
+                      ⌘
+                    </kbd>
+                    <kbd className="inline-flex justify-center items-center rounded bg-gray-100 dark:bg-[#111] border border-gray-200 dark:border-[#333] px-1 font-sans text-xs text-gray-400 w-6 h-6">
+                      K
+                    </kbd>
+                  </div>
                 </div>
 
                 <div className="mt-2 mb-2">
@@ -653,7 +680,7 @@ export default function Listen() {
                             onClick={() => {
                               filterSongsByGenre(null); // Clear genre filter by passing null
                             }}
-                            className="ml-0.5 inline-flex h-4 w-4 flex-shrink-0 items-center justify-center rounded-full hover:bg-gray-200 dark:hover:bg-[#333] hover:text-black/80 dark:hover:text-white/80 focus:bg-indigo-500 focus:text-white focus:outline-none"
+                            className="ml-0.5 inline-flex h-4 w-4 flex-shrink-0 items-center justify-center rounded-full hover:bg-gray-200 dark:hover:bg-[#333] hover:text-black/80 dark:hover:text-white/80 focus:bg-orange-500 focus:text-white focus:outline-none"
                           >
                             <span className="sr-only">Remove large option</span>
                             <svg
@@ -766,10 +793,10 @@ export default function Listen() {
                         onEnded={(e) => {
                           if (currentIndex < nfts.length - 1) {
                             setCurrentIndex(currentIndex + 1);
-
                             setProgress(0);
-
                             setDuration(e.target.duration);
+                            setStartTime(Date.now() / 1000);
+                            resetProgressBar();
                           }
                         }}
                         onPlay={() => {
@@ -788,6 +815,11 @@ export default function Listen() {
                                 ).toFixed(2)
                               );
                               setProgress(calculatedProgress);
+                            }
+
+                            // reset the progress bar if the song is over
+                            if (audioRef.current.currentTime === duration) {
+                              setProgress(0);
                             }
                           }, 500);
 

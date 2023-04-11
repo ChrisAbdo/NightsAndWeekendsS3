@@ -65,7 +65,7 @@ export default function Index() {
             <div className="flex mt-4 space-x-2 justify-center">
               <Link
                 href="/listen"
-                className="rounded-md bg-orange-600 hover:bg-orange-600/80 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                className="rounded-md bg-orange-600 hover:bg-orange-600/80 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
               >
                 Start Listening
               </Link>

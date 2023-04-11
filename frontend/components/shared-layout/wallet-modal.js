@@ -52,7 +52,7 @@ export default function WalletModal({
                   <div>
                     <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full ">
                       <LinkIcon
-                        className="h-6 w-6 text-indigo-600"
+                        className="h-6 w-6 text-orange-600"
                         aria-hidden="true"
                       />
                     </div>
@@ -75,7 +75,7 @@ export default function WalletModal({
                       <button
                         type="button"
                         disabled
-                        className="cursor-not-allowed inline-flex w-full justify-center rounded-md bg-purple-600 hover:bg-purple-600/80 px-3 py-2 text-sm font-semibold text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                        className="cursor-not-allowed inline-flex w-full justify-center rounded-md bg-purple-600 hover:bg-purple-600/80 px-3 py-2 text-sm font-semibold text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
                       >
                         Connected to&nbsp;
                         {connectedAccount.slice(0, 5) +
@@ -85,7 +85,7 @@ export default function WalletModal({
                     ) : (
                       <button
                         type="button"
-                        className="inline-flex w-full justify-center rounded-md bg-purple-600 hover:bg-purple-600/80 px-3 py-2 text-sm font-semibold text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                        className="inline-flex w-full justify-center rounded-md bg-purple-600 hover:bg-purple-600/80 px-3 py-2 text-sm font-semibold text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
                         onClick={connectWallet}
                       >
                         Connect to Polygon Mainnet
