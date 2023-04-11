@@ -10,7 +10,7 @@ import {
   useAnimationFrame,
 } from "framer-motion";
 
-export default function ParallaxText({ children, baseVelocity = 100 }) {
+export default function PlayerParallax({ children, baseVelocity = 100 }) {
   const baseX = useMotionValue(0);
   const { scrollY } = useScroll();
   const scrollVelocity = useVelocity(scrollY);

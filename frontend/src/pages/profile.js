@@ -30,6 +30,7 @@ import ProfileTopSkeleton from "@/components/skeletons/profile-top-skeleton";
 import Link from "next/link";
 import ProgressBar from "@/components/listen-ui/song-progress";
 import SongProgress from "@/components/listen-ui/song-progress";
+import PlayerParallax from "@/components/profile-ui/player-parallax";
 
 const navigation = [
   { name: "Home", href: "#", icon: HomeIcon, current: true },
@@ -54,6 +55,7 @@ export default function Example() {
 
   const [audioRefs, setAudioRefs] = useState({});
   const [isPlaying, setIsPlaying] = useState(null);
+  const [audioIsRunning, setAudioIsRunning] = useState(false);
 
   const audioRef = useRef(null);
 
@@ -892,6 +894,7 @@ export default function Example() {
                                   if (isPlaying === nft.tokenId) {
                                     audioElement.pause();
                                     setIsPlaying(null);
+                                    setAudioIsRunning(false);
                                   } else {
                                     if (isPlaying !== null) {
                                       // Pause the currently playing audio
@@ -899,6 +902,7 @@ export default function Example() {
                                     }
                                     audioElement.play();
                                     setIsPlaying(nft.tokenId);
+                                    setAudioIsRunning(true);
                                   }
                                 }}
                                 className="group inline-flex truncate text-sm"
@@ -972,44 +976,45 @@ export default function Example() {
               variants={slideUp}
             >
               <div className="flex w-full justify-between items-center px-6 py-4">
-                <div className="flex items-center">
-                  <img
-                    className="h-12 w-12 rounded-md mr-4"
-                    src={currentSongImage}
-                    alt="Song Cover"
-                  />
-                  <div>
-                    <motion.h1
-                      className="text-lg font-medium text-gray-900 dark:text-gray-100 truncate w-full"
-                      variants={textVariants}
-                    >
-                      {currentSongName}
-                    </motion.h1>
-                    <motion.p
-                      className="text-sm font-medium text-gray-500 dark:text-gray-400 m-0"
-                      variants={textVariants}
-                    >
-                      {currentSongArtist.slice(0, 5)}...
-                      {currentSongArtist.slice(currentSongArtist.length - 5)}
-                    </motion.p>
-                    <motion.p
-                      className="text-sm font-medium text-gray-500 dark:text-gray-400 m-0"
-                      variants={textVariants}
-                    >
-                      Heat: {currentSongHeat}{" "}
-                      <FireIcon className="h-4 w-4 inline-block" />
-                    </motion.p>
-                    <motion.p
-                      className="text-sm font-medium text-gray-500 dark:text-gray-400 m-0"
-                      variants={textVariants}
-                    >
-                      Genre: {currentSongGenre}
-                    </motion.p>
+                <div className="flex w-1/2">
+                  {" "}
+                  {/* Wrap the first and last divs in this new div */}
+                  <div className="flex items-center">
+                    <img
+                      className="h-12 w-12 rounded-md mr-4"
+                      src={currentSongImage}
+                      alt="Song Cover"
+                    />
+                    <div>
+                      <motion.h1
+                        className="text-lg font-medium text-gray-900 dark:text-gray-100 truncate w-full"
+                        variants={textVariants}
+                      >
+                        {currentSongName}
+                      </motion.h1>
+                      <motion.p
+                        className="text-sm font-medium text-gray-500 dark:text-gray-400 m-0"
+                        variants={textVariants}
+                      >
+                        {currentSongGenre}
+                      </motion.p>
+                    </div>
                   </div>
                 </div>
 
-                <div className="flex items-center">
-                  <FireIcon className="h-6 w-6 text-orange-600 animate-pulse" />
+                <div className="flex w-1/2 justify-end">
+                  {" "}
+                  {/* Wrap the first and last divs in this new div */}
+                  <div className="flex items-center">
+                    <motion.p
+                      className="text-sm font-medium text-gray-500 dark:text-gray-400 m-0"
+                      variants={textVariants}
+                    >
+                      {currentSongHeat}{" "}
+                    </motion.p>
+
+                    <FireIcon className="h-6 w-6 text-orange-600 animate-pulse" />
+                  </div>
                 </div>
               </div>
             </motion.div>
