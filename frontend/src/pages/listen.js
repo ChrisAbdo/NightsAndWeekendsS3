@@ -65,6 +65,7 @@ export default function Listen() {
   const [heatButtonLoading, setHeatButtonLoading] = useState(false);
   const [nfts, setNfts] = useState([]);
   const [genreFilteredNfts, setGenreFilteredNfts] = useState([]);
+  const [originalNfts, setOriginalNfts] = useState([]);
 
   const [heatSort, setHeatSort] = useState([]);
   const [sortOrder, setSortOrder] = useState("desc");
@@ -193,14 +194,23 @@ export default function Listen() {
       })
       .slice(0, 5);
 
+      
+
     setMostRecentNfts(mostRecentNfts);
 
     setTopThreeNfts(topThreeNfts);
+
+   
+    
 
     setNfts(sortedNfts);
 
     setSongsLoaded(true);
   }
+
+
+  
+  
 
   function toggleSortOrder() {
     const newSortOrder = sortOrder === "asc" ? "desc" : "asc";
@@ -210,6 +220,7 @@ export default function Listen() {
     const newSortedNfts = sortSongsByHeat(nfts, newSortOrder);
     setNfts(newSortedNfts);
   }
+
 
   function sortSongsByHeat(nftsArray, order) {
     return nftsArray
@@ -483,12 +494,40 @@ export default function Listen() {
                   />
                 </div>
 
-                <div className="mt-2 mb-2">
-                  <SidebarDivider />
+                <div className="mt-4">
+                  <SortGenre filterSongsByGenre={filterSongsByGenre} />
                 </div>
 
-                <div>
-                  <SortGenre filterSongsByGenre={filterSongsByGenre} />
+                <div className="mt-4 flex items-center justify-center">
+                  <button
+                    type="button"
+                 
+                    className="flex rounded-md w-full items-center justify-center bg-transparent px-3 py-1.5 text-sm font-semibold text-black dark:text-white shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-[#333] hover:bg-gray-200 dark:hover:bg-[#111] transition duration-200"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-shuffle"
+                    >
+                      <polyline points="16 3 21 3 21 8"></polyline>
+                      <line x1="4" x2="21" y1="20" y2="3"></line>
+                      <polyline points="21 16 21 21 16 21"></polyline>
+                      <line x1="15" x2="21" y1="15" y2="21"></line>
+                      <line x1="4" x2="9" y1="4" y2="9"></line>
+                    </svg>&nbsp;Shuffle
+                  </button>
+                
+                </div>
+
+                <div className="mt-2 mb-2">
+                  <SidebarDivider />
                 </div>
               </div>
 
