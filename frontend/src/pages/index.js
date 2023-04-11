@@ -58,11 +58,12 @@ export default function Index() {
         </div>
 
         <div className="fixed inset-0 flex items-center justify-center flex-col z-10">
-          <div className="flex items-center justify-center flex-col bg-white dark:bg-black p-4">
-            <div>
-              <h1 className="text-5xl text-center">Welcome to Etherwav</h1>
+          <div className="flex items-center justify-center flex-col  p-4">
+          <div>
+
+            <h1 className="text-5xl inline bg-white dark:bg-black">Welcome to Etherwav</h1>
             </div>
-            <div className="flex mt-4 space-x-2 justify-center">
+            <div className="flex mt-4 space-x-2 justify-center bg-white dark:bg-black p-1">
               <Link
                 href="/listen"
                 className="rounded-md bg-orange-600 hover:bg-orange-600/80 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"

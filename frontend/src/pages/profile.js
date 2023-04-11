@@ -1,5 +1,5 @@
 import { Fragment, useState, useEffect, useRef, createRef } from "react";
-
+import dynamic from "next/dynamic";
 import axios from "axios";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
@@ -20,17 +20,20 @@ import {
 } from "@heroicons/react/24/outline";
 import {
   ChevronRightIcon,
-  ChevronUpDownIcon,
   EllipsisVerticalIcon,
   MagnifyingGlassIcon,
 } from "@heroicons/react/20/solid";
 import ProfileDropdown from "@/components/profile-ui/profile-dropdown";
-import ProfileSkeleton from "@/components/skeletons/profile-skeleton";
-import ProfileTopSkeleton from "@/components/skeletons/profile-top-skeleton";
 import Link from "next/link";
-import ProgressBar from "@/components/listen-ui/song-progress";
-import SongProgress from "@/components/listen-ui/song-progress";
-import PlayerParallax from "@/components/profile-ui/player-parallax";
+
+const ProfileSkeleton = dynamic(
+  () => import("@/components/skeletons/profile-skeleton"),
+  { ssr: false }
+);
+const ProfileTopSkeleton = dynamic(
+  () => import("@/components/skeletons/profile-top-skeleton"),
+  { ssr: false }
+);
 
 const navigation = [
   { name: "Home", href: "#", icon: HomeIcon, current: true },
