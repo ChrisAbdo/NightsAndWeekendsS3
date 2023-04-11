@@ -32,6 +32,9 @@ import LeaderboardSkeleton from "@/components/skeletons/leaderboard-skeleton";
 import AudioPlayerSkeleton from "@/components/skeletons/audio-player-skeleton";
 import RecentSkeleton from "@/components/skeletons/recent-skeleton";
 import CommandPalette from "@/components/listen-ui/command-palette";
+import SortRadio from "@/components/listen-ui/sort-radio";
+import SortGenre from "@/components/listen-ui/sort-genre";
+import SidebarDivider from "@/components/listen-ui/sidebar-divider";
 
 const navigation = [
   { name: "Dashboard", href: "#", icon: HomeIcon, current: true },
@@ -62,7 +65,11 @@ export default function Listen() {
   const [nfts, setNfts] = useState([]);
   const [genreFilteredNfts, setGenreFilteredNfts] = useState([]);
 
-  const [genreActive, setGenreActive] = useState();
+  const [heatSort, setHeatSort] = useState([]);
+  const [sortOrder, setSortOrder] = useState("desc");
+
+  const [genreActive, setGenreActive] = useState({ active: false, name: null });
+
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [heatCount, setHeatCount] = useState(0);
@@ -130,11 +137,11 @@ export default function Listen() {
 
   async function loadSongs() {
     console.log("Loading songs...");
-    const infuraUrl =
-      "https://polygon-mumbai.infura.io/v3/bc3a18f867074b7186d877cb4d45675a";
-    const web3 = new Web3(infuraUrl);
+    // const infuraUrl =
+    //   "https://polygon-mumbai.infura.io/v3/bc3a18f867074b7186d877cb4d45675a";
+    // const web3 = new Web3(infuraUrl);
 
-    // const web3 = new Web3(window.ethereum);
+    const web3 = new Web3(window.ethereum);
 
     const networkId = await web3.eth.net.getId();
 
@@ -173,10 +180,19 @@ export default function Listen() {
     );
 
     // set nfts in order of heatCount
-    const sortedNfts = nfts
-      .filter((nft) => nft !== null)
-      .sort((a, b) => b.heatCount - a.heatCount);
+    // const sortedNfts = nfts
+    //   .filter((nft) => nft !== null)
+    //   .sort((a, b) => b.heatCount - a.heatCount);
+    const sortedNfts = sortSongsByHeat(nfts, sortOrder);
     const topThreeNfts = sortedNfts.slice(0, 3);
+
+    // state for descending order of heatCount
+    // const heatSort = nfts
+    //   .filter((nft) => nft !== null)
+    //   .sort((a, b) => b.heatCount - a.heatCount);
+
+    const heatSort = sortSongsByHeat(nfts, "desc");
+    setHeatSort(heatSort);
 
     const mostRecentNfts = nfts
       .filter((nft) => nft !== null)
@@ -194,20 +210,46 @@ export default function Listen() {
     setSongsLoaded(true);
   }
 
+  function toggleSortOrder() {
+    const newSortOrder = sortOrder === "asc" ? "desc" : "asc";
+    setSortOrder(newSortOrder);
+
+    // Re-sort the songs based on the new sortOrder
+    const newSortedNfts = sortSongsByHeat(nfts, newSortOrder);
+    setNfts(newSortedNfts);
+  }
+
+  function sortSongsByHeat(nftsArray, order) {
+    return nftsArray
+      .filter((nft) => nft !== null)
+      .sort((a, b) => {
+        return order === "asc"
+          ? a.heatCount - b.heatCount
+          : b.heatCount - a.heatCount;
+      });
+  }
+
   function filterSongsByGenre(genre) {
-    const filteredNfts = nfts.filter((nft) => nft.genre === genre);
-    setGenreFilteredNfts(filteredNfts);
-    setNfts(filteredNfts);
-    setCurrentIndex(0);
+    if (genre === null) {
+      setNfts(heatSort); // Reset NFT list to the original list (unfiltered)
+      setGenreActive({ active: false, name: null });
+    } else {
+      const filteredNfts = nfts.filter((nft) => nft.genre === genre);
+      setGenreFilteredNfts(filteredNfts);
+      setNfts(filteredNfts);
+      setCurrentIndex(0);
 
-    // setGenreActive(genre);
-    // set genre active to true and the genre name
-    setGenreActive({ active: true, name: genre });
+      // setGenreActive(genre);
+      // set genre active to true and the genre name
+      setGenreActive({ active: true, name: genre });
 
-    // notifcation
-    setShow(true);
-    setNotificationText("Genre changed!");
-    setNotificationDescription("You are now listening to " + genre + " music.");
+      // notification
+      setShow(true);
+      setNotificationText("Genre changed!");
+      setNotificationDescription(
+        "You are now listening to " + genre + " music."
+      );
+    }
   }
 
   async function handleGiveHeat() {
@@ -443,7 +485,27 @@ export default function Listen() {
                     </kbd>
                   </div>
                 </div>
+
+                <div className="mt-2 mb-2">
+                  <SidebarDivider />
+                </div>
+
+                <div>
+                  <SortRadio
+                    sortOrder={sortOrder}
+                    onToggleSortOrder={toggleSortOrder}
+                  />
+                </div>
+
+                <div className="mt-2 mb-2">
+                  <SidebarDivider />
+                </div>
+
+                <div>
+                  <SortGenre filterSongsByGenre={filterSongsByGenre} />
+                </div>
               </div>
+
               <h2 className="mt-2 text-xl font-semibold text-gray-500 dark:text-gray-400">
                 Queue
               </h2>
@@ -559,14 +621,13 @@ export default function Listen() {
                         <FireIcon className="h-4" />
                       </span>
 
-                      {genreActive ? (
+                      {genreActive.active ? (
                         <span className="inline-flex items-center rounded-md bg-gray-100 dark:bg-[#111]  transition duration-150 border border-gray-200 dark:border-[#333] py-0.5 pl-2.5 pr-1 text-sm font-medium ">
                           {nfts[currentIndex].genre}
                           <button
                             type="button"
                             onClick={() => {
-                              setGenreActive(false);
-                              setGenreFilteredNfts([]);
+                              filterSongsByGenre(null); // Clear genre filter by passing null
                             }}
                             className="ml-0.5 inline-flex h-4 w-4 flex-shrink-0 items-center justify-center rounded-full hover:bg-gray-200 dark:hover:bg-[#333] hover:text-black/80 dark:hover:text-white/80 focus:bg-indigo-500 focus:text-white focus:outline-none"
                           >

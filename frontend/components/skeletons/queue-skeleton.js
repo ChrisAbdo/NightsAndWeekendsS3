@@ -3,7 +3,7 @@ import React from "react";
 export default function QueueSkeleton() {
   return (
     <>
-      {Array(5)
+      {Array(15)
         .fill(0)
         .map((_, i) => (
           <li
@@ -21,15 +21,15 @@ export default function QueueSkeleton() {
                 {/* Title */}
                 <div className="flex items-center justify-between">
                   <h3 className="text-sm font-medium">
-                    <div className="bg-gray-200 dark:bg-[#333] w-28 h-4 animate-pulse rounded-md" />
+                    <div className="bg-gray-200 dark:bg-[#333] w-20 h-4 animate-pulse rounded-md" />
                   </h3>
-                   {/* Heat Count */}
+                  {/* Heat Count */}
                   <div className="flex items-center text-sm text-gray-500">
                     <div className="bg-gray-200 dark:bg-[#333] w-6 h-4 animate-pulse rounded-md" />
                   </div>
                 </div>
 
-               {/* Seller */}
+                {/* Seller */}
                 <div className="text-sm text-gray-500">
                   <div className="bg-gray-200 dark:bg-[#333] w-24 h-4 animate-pulse rounded-md" />
                 </div>
