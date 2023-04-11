@@ -1,6 +1,6 @@
 import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
-import { ChevronDownIcon } from "@heroicons/react/20/solid";
+import { EllipsisVerticalIcon } from "@heroicons/react/24/outline";
 
 const items = [
   { name: "Edit Song Details", href: "#" },
@@ -15,17 +15,10 @@ function classNames(...classes) {
 export default function ProfileDropdown() {
   return (
     <div className="inline-flex rounded-md shadow-sm">
-      <button
-        type="button"
-        className="relative inline-flex items-center rounded-l-md px-3 py-2 text-sm font-semibold ring-1 ring-inset ring-gray-300 dark:ring-[#333] hover:bg-gray-50 dark:hover:bg-[#111] focus:z-10"
-      >
-        Delete Song
-      </button>
-
       <Menu as="div" className="relative -ml-px block">
-        <Menu.Button className="relative inline-flex items-center rounded-r-md  px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 dark:ring-[#333] hover:bg-gray-50 dark:hover:bg-[#111] focus:z-10">
+        <Menu.Button className="relative inline-flex items-center rounded-md  px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 dark:ring-[#333] hover:bg-gray-50 dark:hover:bg-[#111] focus:z-10">
           <span className="sr-only">Open options</span>
-          <ChevronDownIcon className="h-5 w-5" aria-hidden="true" />
+          <EllipsisVerticalIcon className="h-5 w-5" aria-hidden="true" />
         </Menu.Button>
         <Transition
           as={Fragment}

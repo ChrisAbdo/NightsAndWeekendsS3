@@ -3,10 +3,11 @@ import React from "react";
 export default function ProfileSkeleton() {
   return (
     <>
-      {Array.from({ length: 5 }, (_, i) => (
+      {Array.from({ length: 15 }, (_, i) => (
         <tr key={i}>
           <td className="w-full max-w-0 whitespace-nowrap px-6 py-3 text-sm font-medium ">
             <div className="flex items-center space-x-3 lg:pl-2">
+            <div className="bg-gray-200 dark:bg-[#333] w-4 h-4 animate-pulse rounded-md" />
               <div className="bg-gray-200 dark:bg-[#333] w-8 h-8 animate-pulse rounded-md" />
 
               <div className="bg-gray-200 dark:bg-[#333] w-28 h-4 animate-pulse rounded-md" />
@@ -22,10 +23,10 @@ export default function ProfileSkeleton() {
             </div>
           </td>
           <td className="hidden whitespace-nowrap px-6 py-3 text-right text-sm text-gray-500 md:table-cell">
-            <div className="bg-gray-200 dark:bg-[#333] w-20 h-4 animate-pulse rounded-md" />
+            <div className="bg-gray-200 dark:bg-[#333] w-14 h-4 animate-pulse rounded-md" />
           </td>
           <td className="whitespace-nowrap px-6 py-3 text-right text-sm font-medium">
-            <div className="bg-gray-200 dark:bg-[#333] w-36 h-9 animate-pulse rounded-md" />
+            <div className="bg-gray-200 dark:bg-[#333] w-9 h-9 animate-pulse rounded-md" />
           </td>
         </tr>
       ))}
