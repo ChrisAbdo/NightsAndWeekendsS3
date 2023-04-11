@@ -71,9 +71,9 @@ export default function ContactMe() {
                   <div>
                     <dt className="sr-only">Email</dt>
                     <dd>
-                      <a className="font-semibold text-orange-600">
+                      <span className="font-semibold text-orange-600">
                         chrisabdo.lens
-                      </a>
+                      </span>
                     </dd>
                   </div>
                 </dl>
