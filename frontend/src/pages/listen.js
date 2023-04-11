@@ -180,17 +180,8 @@ export default function Listen() {
       })
     );
 
-    // set nfts in order of heatCount
-    // const sortedNfts = nfts
-    //   .filter((nft) => nft !== null)
-    //   .sort((a, b) => b.heatCount - a.heatCount);
     const sortedNfts = sortSongsByHeat(nfts, sortOrder);
     const topThreeNfts = sortedNfts.slice(0, 3);
-
-    // state for descending order of heatCount
-    // const heatSort = nfts
-    //   .filter((nft) => nft !== null)
-    //   .sort((a, b) => b.heatCount - a.heatCount);
 
     const heatSort = sortSongsByHeat(nfts, "desc");
     setHeatSort(heatSort);
@@ -587,10 +578,6 @@ export default function Listen() {
               >
                 <div className="flex flex-col">
                   <div className="flex justify-center">
-                    {/* <img
-                    className="h-64 w-64 max-w-full"
-                    src="https://tailwindui.com/img/ecommerce-images/home-page-03-favorite-01.jpg"
-                  /> */}
                     <motion.div
                       key={nfts[currentIndex].tokenId}
                       initial={direction === "right" ? { x: -100 } : { x: 100 }}
@@ -701,7 +688,9 @@ export default function Listen() {
                         // className="bg-gray-100 dark:bg-[#111] border border-gray-200 dark:border-[#333] px-3.5 py-2.5 rounded-md text-sm font-medium hover:bg-gray-200 dark:hover:bg-[#111]/80"
                         // same class as above, but with conditional for if is the first song, cursor-not-allowed
                         className={`${
-                          currentIndex === 0 ? " cursor-not-allowed" : "cursor-pointer"
+                          currentIndex === 0
+                            ? " cursor-not-allowed"
+                            : "cursor-pointer"
                         } bg-gray-100 dark:bg-[#111] border border-gray-200 dark:border-[#333] px-3.5 py-2.5 rounded-md text-sm font-medium hover:bg-gray-200 dark:hover:bg-[#111]/80`}
                         onClick={handlePrevious}
                         disabled={currentIndex === 0}
@@ -932,7 +921,7 @@ export default function Listen() {
                     <li
                       key={index}
                       className="py-4 rounded-md hover:bg-gray-200 dark:hover:bg-[#333] transition duration-150 p-6 cursor-pointer"
-                      onClick={() => setCurrentIndex(index)}
+                      onClick={() => setCurrentIndex(nft.tokenId - 1)}
                     >
                       <div className="flex items-center space-x-4">
                         <div className="flex-shrink-0">
