@@ -464,13 +464,18 @@ export default function Listen() {
                   </button>
 
                   <div
-                    onClick={() => setCommandOpen(true)}
-                    className="absolute cursor-pointer inset-y-0 right-0 flex py-1.5 pr-1.5"
-                  >
-                    <kbd className="inline-flex items-center rounded border border-gray-200 dark:border-[#333] px-1 font-sans text-xs text-gray-400">
-                      ⌘K
-                    </kbd>
-                  </div>
+  onClick={() => setCommandOpen(true)}
+  className="absolute space-x-1 cursor-pointer inset-y-0 right-0 flex py-1.5 pr-1.5"
+>
+  <kbd className="inline-flex justify-center items-center rounded bg-gray-100 dark:bg-[#111] border border-gray-200 dark:border-[#333] px-1 font-sans text-xs text-gray-400 w-6 h-6">
+    ⌘
+  </kbd>
+  <kbd className="inline-flex justify-center items-center rounded bg-gray-100 dark:bg-[#111] border border-gray-200 dark:border-[#333] px-1 font-sans text-xs text-gray-400 w-6 h-6">
+    K
+  </kbd>
+</div>
+
+
                 </div>
 
                 <div className="mt-2 mb-2">
