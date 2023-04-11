@@ -1,4 +1,5 @@
 import { Fragment, useState, useEffect, useRef } from "react";
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import Web3 from "web3";
 import Radio from "@/contracts/Radio.json";
@@ -7,7 +8,8 @@ import axios from "axios";
 import { motion } from "framer-motion";
 import { Dialog, Transition } from "@headlessui/react";
 import ParallaxText from "@/components/shared-layout/parallax-text";
-import Notification from "@/components/listen-ui/notification";
+import ProgressBar from "@/components/listen-ui/song-progress";
+import SidebarDivider from "@/components/listen-ui/sidebar-divider";
 import {
   Bars3Icon,
   CalendarIcon,
@@ -24,17 +26,19 @@ import {
 } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { FireIcon } from "@heroicons/react/20/solid";
-import InfoModal from "@/components/listen-ui/info-modal";
-import HeatSlideover from "@/components/listen-ui/heat-slideover";
-import ProgressBar from "@/components/listen-ui/song-progress";
-import QueueSkeleton from "@/components/skeletons/queue-skeleton";
-import LeaderboardSkeleton from "@/components/skeletons/leaderboard-skeleton";
-import AudioPlayerSkeleton from "@/components/skeletons/audio-player-skeleton";
-import RecentSkeleton from "@/components/skeletons/recent-skeleton";
-import CommandPalette from "@/components/listen-ui/command-palette";
-import SortRadio from "@/components/listen-ui/sort-radio";
-import SortGenre from "@/components/listen-ui/sort-genre";
-import SidebarDivider from "@/components/listen-ui/sidebar-divider";
+
+const InfoModal = dynamic(() => import("@/components/listen-ui/info-modal"));
+const HeatSlideover = dynamic(() => import("@/components/listen-ui/heat-slideover"));
+const CommandPalette = dynamic(() => import("@/components/listen-ui/command-palette"));
+const SortRadio = dynamic(() => import("@/components/listen-ui/sort-radio"));
+const SortGenre = dynamic(() => import("@/components/listen-ui/sort-genre"));
+const QueueSkeleton = dynamic(() => import("@/components/skeletons/queue-skeleton"));
+const LeaderboardSkeleton = dynamic(() => import("@/components/skeletons/leaderboard-skeleton"));
+const AudioPlayerSkeleton = dynamic(() => import("@/components/skeletons/audio-player-skeleton"));
+const RecentSkeleton = dynamic(() => import("@/components/skeletons/recent-skeleton"));
+const Notification = dynamic(() => import("@/components/listen-ui/notification"));
+
+
 
 const navigation = [
   { name: "Dashboard", href: "#", icon: HomeIcon, current: true },
