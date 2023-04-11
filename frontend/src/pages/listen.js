@@ -61,7 +61,8 @@ export default function Listen() {
   const [open, setOpen] = useState(false);
   const [commandOpen, setCommandOpen] = useState(false);
   const [heatOpen, setHeatOpen] = useState(false);
-
+  const [heatCompleteModalOpen, setHeatCompleteModalOpen] = useState(false);
+  const [heatButtonLoading, setHeatButtonLoading] = useState(false);
   const [nfts, setNfts] = useState([]);
   const [genreFilteredNfts, setGenreFilteredNfts] = useState([]);
 
@@ -255,6 +256,7 @@ export default function Listen() {
   async function handleGiveHeat() {
     // Get an instance of the Radio contract
     try {
+      setHeatButtonLoading(true);
       const web3 = new Web3(window.ethereum);
       const networkId = await web3.eth.net.getId();
       const radioContract = new web3.eth.Contract(
@@ -275,15 +277,8 @@ export default function Listen() {
           console.log("listed");
 
           setLoading(false);
-          setShow(true);
-          setNotificationText("Heat given!");
-          setNotificationDescription(
-            "You have given " +
-              heatCount +
-              " heat to " +
-              nfts[currentIndex].title +
-              ". Please refresh the page to see the updated heat count."
-          );
+          setHeatButtonLoading(false);
+          setHeatCompleteModalOpen(true);
         });
     } catch (err) {
       console.log(err);
@@ -811,6 +806,10 @@ export default function Listen() {
                         setHeatOpen={setHeatOpen}
                         nft={nfts[currentIndex]}
                         handleGiveHeat={handleGiveHeat}
+                        heatButtonLoading={heatButtonLoading}
+                        setHeatButtonLoading={setHeatButtonLoading}
+                        heatCompleteModalOpen={heatCompleteModalOpen}
+                        setHeatCompleteModalOpen={setHeatCompleteModalOpen}
                         heatCount={heatCount}
                         setHeatCount={setHeatCount}
                       />

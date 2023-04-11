@@ -1,4 +1,5 @@
 import { MusicalNoteIcon } from "@heroicons/react/20/solid";
+import { AdjustmentsHorizontalIcon } from "@heroicons/react/24/outline";
 
 export default function SidebarDivider() {
   return (
@@ -8,7 +9,7 @@ export default function SidebarDivider() {
       </div>
       <div className="relative flex justify-center">
         <span className="bg-white dark:bg-black px-2">
-          <MusicalNoteIcon
+          <AdjustmentsHorizontalIcon 
             className="h-5 w-5 text-gray-500"
             aria-hidden="true"
           />

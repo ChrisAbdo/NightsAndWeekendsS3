@@ -204,6 +204,10 @@ export default function Upload() {
     setGenreSrc(null);
 
     // TODO: Remove all inputs from form
+    const titleInput = document.getElementById("title");
+    if (titleInput) {
+      titleInput.value = "";
+    }
 
     setShow(true);
     setNotificationText("All inputs have been removed");
@@ -307,7 +311,7 @@ export default function Upload() {
                     <input
                       type="text"
                       name="company"
-                      id="company"
+                      id="title"
                       onChange={(e) => {
                         setTitleSrc(e.target.value);
                         updateFormInput({
@@ -331,6 +335,7 @@ export default function Upload() {
                     </label>
 
                     <Select.Root
+                    id="genre"
                       onValueChange={(e) => {
                         setGenreSrc(e);
                         console.log(e);

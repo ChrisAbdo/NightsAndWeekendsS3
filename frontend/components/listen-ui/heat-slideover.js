@@ -1,19 +1,29 @@
 import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { HeartIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import classNames from "classnames";
 
 import Image from "next/image";
+import HeatComplete from "./heat-complete";
 
 export default function HeatSlideover({
   heatOpen,
   setHeatOpen,
   nft,
   handleGiveHeat,
-  
+  heatCount,
   setHeatCount,
+  heatCompleteModalOpen,
+  setHeatCompleteModalOpen,
+  heatButtonLoading,
+  setHeatButtonLoading,
 }) {
   return (
     <>
+      <HeatComplete
+        heatCompleteModalOpen={heatCompleteModalOpen}
+        setHeatCompleteModalOpen={setHeatCompleteModalOpen}
+      />
       <Transition.Root show={heatOpen} as={Fragment}>
         <Dialog as="div" className="relative z-10" onClose={setHeatOpen}>
           <Transition.Child
@@ -145,7 +155,9 @@ export default function HeatSlideover({
                         </div>
 
                         <div>
-                          <h3 className="font-medium">Give Heat</h3>
+                          <h3 className="font-medium">
+                            Give Heat<span className="text-red-500">*</span>
+                          </h3>
                           <div>
                             <div className="mt-2 flex rounded-md shadow-sm">
                               <span className="inline-flex items-center rounded-l-md border border-r-0 border-gray-300 dark:border-[#333] px-3 text-gray-500 sm:text-sm">
@@ -165,13 +177,44 @@ export default function HeatSlideover({
                           </div>
                         </div>
                         <div className="flex">
-                          <button
-                            type="button"
-                            className="w-full rounded-md bg-orange-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-orange-600/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                            onClick={handleGiveHeat}
-                          >
-                            Give Heat
-                          </button>
+                          {!heatButtonLoading && (
+                            <button
+                              type="button"
+                              className={`w-full rounded-md bg-orange-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-orange-600/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 ${
+                                heatCount === 0
+                                  ? "cursor-not-allowed"
+                                  : "cursor-pointer"
+                              }`}
+                              onClick={handleGiveHeat}
+                              disabled={heatCount === 0}
+                            >
+                              Give Heat
+                            </button>
+                          )}
+
+                          {heatButtonLoading && (
+                            <button
+                              type="button"
+                              className="flex items-center justify-center w-full rounded-md bg-orange-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-orange-600/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                              onClick={handleGiveHeat}
+                            >
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="24"
+                                height="24"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                className="lucide lucide-loader-2 animate-spin"
+                              >
+                                <path d="M21 12a9 9 0 1 1-6.219-8.56"></path>
+                              </svg>
+                              &nbsp;&nbsp;Giving Heat
+                            </button>
+                          )}
                         </div>
                       </div>
                     </div>
