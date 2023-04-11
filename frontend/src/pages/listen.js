@@ -698,7 +698,11 @@ export default function Listen() {
                   <div className="mt-12">
                     <div className="max-w-sm mx-auto flex justify-between items-center">
                       <button
-                        className="bg-gray-100 dark:bg-[#111] border border-gray-200 dark:border-[#333] px-3.5 py-2.5 rounded-md text-sm font-medium hover:bg-gray-200 dark:hover:bg-[#111]/80"
+                        // className="bg-gray-100 dark:bg-[#111] border border-gray-200 dark:border-[#333] px-3.5 py-2.5 rounded-md text-sm font-medium hover:bg-gray-200 dark:hover:bg-[#111]/80"
+                        // same class as above, but with conditional for if is the first song, cursor-not-allowed
+                        className={`${
+                          currentIndex === 0 ? " cursor-not-allowed" : "cursor-pointer"
+                        } bg-gray-100 dark:bg-[#111] border border-gray-200 dark:border-[#333] px-3.5 py-2.5 rounded-md text-sm font-medium hover:bg-gray-200 dark:hover:bg-[#111]/80`}
                         onClick={handlePrevious}
                         disabled={currentIndex === 0}
                       >

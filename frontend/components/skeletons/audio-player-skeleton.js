@@ -22,11 +22,11 @@ export default function AudioPlayerSkeleton() {
           {/* Progress */}
           <div className="flex justify-center mt-12">
             <div className="flex justify-between space-x-2 items-center">
-              <div className="bg-gray-200 dark:bg-[#333] w-12 h-4 animate-pulse rounded-md" />
+              <div className="bg-gray-200 dark:bg-[#333] w-10 h-3 animate-pulse rounded-md" />
 
               <div className="bg-gray-200 dark:bg-[#333] w-72 h-6 animate-pulse rounded-md" />
 
-              <div className="bg-gray-200 dark:bg-[#333] w-12 h-4 animate-pulse rounded-md" />
+              <div className="bg-gray-200 dark:bg-[#333] w-10 h-3 animate-pulse rounded-md" />
             </div>
           </div>
 
