@@ -65,7 +65,7 @@ export default function Listen() {
   const [heatButtonLoading, setHeatButtonLoading] = useState(false);
   const [nfts, setNfts] = useState([]);
   const [genreFilteredNfts, setGenreFilteredNfts] = useState([]);
-  const [originalNfts, setOriginalNfts] = useState([]);
+  const isFirstRender = useRef(true);
 
   const [heatSort, setHeatSort] = useState([]);
   const [sortOrder, setSortOrder] = useState("desc");
@@ -194,23 +194,14 @@ export default function Listen() {
       })
       .slice(0, 5);
 
-      
-
     setMostRecentNfts(mostRecentNfts);
 
     setTopThreeNfts(topThreeNfts);
-
-   
-    
 
     setNfts(sortedNfts);
 
     setSongsLoaded(true);
   }
-
-
-  
-  
 
   function toggleSortOrder() {
     const newSortOrder = sortOrder === "asc" ? "desc" : "asc";
@@ -220,7 +211,6 @@ export default function Listen() {
     const newSortedNfts = sortSongsByHeat(nfts, newSortOrder);
     setNfts(newSortedNfts);
   }
-
 
   function sortSongsByHeat(nftsArray, order) {
     return nftsArray
@@ -501,7 +491,6 @@ export default function Listen() {
                 <div className="mt-4 flex items-center justify-center">
                   <button
                     type="button"
-                 
                     className="flex rounded-md w-full items-center justify-center bg-transparent px-3 py-1.5 text-sm font-semibold text-black dark:text-white shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-[#333] hover:bg-gray-200 dark:hover:bg-[#111] transition duration-200"
                   >
                     <svg
@@ -521,9 +510,9 @@ export default function Listen() {
                       <polyline points="21 16 21 21 16 21"></polyline>
                       <line x1="15" x2="21" y1="15" y2="21"></line>
                       <line x1="4" x2="9" y1="4" y2="9"></line>
-                    </svg>&nbsp;Shuffle
+                    </svg>
+                    &nbsp;Shuffle
                   </button>
-                
                 </div>
 
                 <div className="mt-2 mb-2">
@@ -619,10 +608,19 @@ export default function Listen() {
                   <div className="flex justify-center">
                     <motion.div
                       key={nfts[currentIndex].tokenId}
-                      initial={direction === "right" ? { x: -100 } : { x: 100 }}
+                      initial={
+                        isFirstRender.current
+                          ? {}
+                          : direction === "right"
+                          ? { x: -100 }
+                          : { x: 100 }
+                      }
                       animate={{ x: 0 }}
                       exit={direction === "right" ? { x: 100 } : { x: -100 }}
                       transition={transition}
+                      onAnimationStart={() => {
+                        isFirstRender.current = false;
+                      }}
                     >
                       <Image
                         src={nfts[currentIndex].coverImage}
