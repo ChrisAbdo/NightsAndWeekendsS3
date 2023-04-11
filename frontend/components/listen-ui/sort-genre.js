@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 
@@ -8,6 +8,7 @@ function classNames(...classes) {
 
 export default function SortGenre({ filterSongsByGenre }) {
   const genres = [
+    "All",
     "Pop",
     "Rock",
     "Hip Hop",
@@ -16,11 +17,22 @@ export default function SortGenre({ filterSongsByGenre }) {
     "Country",
     // Add more genres as needed
   ];
+  const [selectedGenre, setSelectedGenre] = useState(null);
+
+  const handleGenreSelect = (genre) => {
+    setSelectedGenre(genre);
+    if (genre === "All") {
+      filterSongsByGenre(null);
+    } else {
+      filterSongsByGenre(genre);
+    }
+  };
+
   return (
     <Menu as="div" className="relative inline-block text-left w-full">
       <div>
         <Menu.Button className="inline-flex justify-between w-full gap-x-1.5 rounded-md bg-white dark:bg-black px-3 py-2 text-sm font-semibold shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-[#333] hover:bg-gray-50 dark:hover:bg-[#111] transition duration-150">
-          Sort by Genre
+          {selectedGenre || "Sort by Genre"}
           <ChevronDownIcon
             className="-mr-1 h-5 w-5 text-gray-400"
             aria-hidden="true"
@@ -43,7 +55,7 @@ export default function SortGenre({ filterSongsByGenre }) {
               <Menu.Item key={genre}>
                 {({ active }) => (
                   <button
-                    onClick={() => filterSongsByGenre(genre)}
+                    onClick={() => handleGenreSelect(genre)}
                     className={classNames(
                       active ? "bg-gray-100 dark:bg-[#111]" : "",
                       "block w-full text-left px-4 py-2 text-sm"
