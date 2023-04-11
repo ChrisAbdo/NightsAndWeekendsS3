@@ -896,7 +896,7 @@ export default function Listen() {
                   topThreeNfts.map((nft, index) => (
                     <li
                       key={index}
-                      className="py-4 rounded-md hover:bg-gray-200 dark:hover:bg-[#333] transition duration-150 p-6 cursor-pointer"
+                      className="py-4 rounded-md hover:bg-gray-200 dark:hover:bg-[#111] transition duration-150 p-6 cursor-pointer"
                       onClick={() => setCurrentIndex(index)}
                     >
                       <div className="flex items-center space-x-4">
@@ -957,7 +957,7 @@ export default function Listen() {
                   mostRecentNfts.map((nft, index) => (
                     <li
                       key={index}
-                      className="py-4 rounded-md hover:bg-gray-200 dark:hover:bg-[#333] transition duration-150 p-6 cursor-pointer"
+                      className="py-4 rounded-md hover:bg-gray-200 dark:hover:bg-[#111] transition duration-150 p-6 cursor-pointer"
                       onClick={() => setCurrentIndex(nft.tokenId - 1)}
                     >
                       <div className="flex items-center space-x-4">
