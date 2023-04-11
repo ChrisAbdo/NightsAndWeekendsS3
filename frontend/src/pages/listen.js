@@ -532,10 +532,10 @@ export default function Listen() {
                       viewBox="0 0 24 24"
                       fill="none"
                       stroke="currentColor"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      class="lucide lucide-shuffle"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="lucide lucide-shuffle"
                     >
                       <polyline points="16 3 21 3 21 8"></polyline>
                       <line x1="4" x2="21" y1="20" y2="3"></line>

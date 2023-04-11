@@ -1,19 +1,30 @@
-import React, { useState } from "react";
+import { useState, forwardRef, lazy, Suspense } from "react";
 import Web3 from "web3";
+import dynamic from "next/dynamic";
+
+import classnames from "classnames";
+import * as Select from "@radix-ui/react-select";
+
 import Radio from "@/contracts/Radio.json";
 import NFT from "@/contracts/NFT.json";
-import {
-  CheckIcon,
-  ChevronDownIcon,
-  ChevronUpIcon,
-  TrashIcon,
-} from "@heroicons/react/20/solid";
-import Divider from "@/components/upload-ui/divider";
-import RadioRedirect from "@/components/upload-ui/radio-redirect";
-import classnames from "classnames";
+import client from "@/hooks/useIPFSClient";
 
-import Notification from "@/components/listen-ui/notification";
-import * as Select from "@radix-ui/react-select";
+const CheckIcon = lazy(() => import("@heroicons/react/20/solid/CheckIcon"));
+const ChevronDownIcon = lazy(() =>
+  import("@heroicons/react/20/solid/ChevronDownIcon")
+);
+const ChevronUpIcon = lazy(() =>
+  import("@heroicons/react/20/solid/ChevronUpIcon")
+);
+const TrashIcon = lazy(() => import("@heroicons/react/20/solid/TrashIcon"));
+const Divider = dynamic(() => import("@/components/upload-ui/divider"));
+
+const RadioRedirect = dynamic(() =>
+  import("@/components/upload-ui/radio-redirect")
+);
+const Notification = dynamic(() =>
+  import("@/components/listen-ui/notification")
+);
 
 const products = [
   {
@@ -29,20 +40,6 @@ const products = [
   },
   // More products...
 ];
-
-const ipfsClient = require("ipfs-http-client");
-const projectId = "2OFayY3iAT7Lm9zEBMn1lqqo61V";
-const projectSecret = "60a65fa9c0e0527140baae1bb8cbeb17";
-const auth =
-  "Basic " + Buffer.from(projectId + ":" + projectSecret).toString("base64");
-const client = ipfsClient.create({
-  host: "ipfs.infura.io",
-  port: 5001,
-  protocol: "https",
-  headers: {
-    authorization: auth,
-  },
-});
 
 export default function Upload() {
   const [audioSrc, setAudioSrc] = useState();
@@ -312,6 +309,7 @@ export default function Upload() {
                       type="text"
                       name="company"
                       id="title"
+                      autoComplete="off"
                       onChange={(e) => {
                         setTitleSrc(e.target.value);
                         updateFormInput({
@@ -335,7 +333,7 @@ export default function Upload() {
                     </label>
 
                     <Select.Root
-                    id="genre"
+                      id="genre"
                       onValueChange={(e) => {
                         setGenreSrc(e);
                         console.log(e);
@@ -416,8 +414,8 @@ export default function Upload() {
                 role="list"
                 className="divide-y divide-gray-200 dark:divide-[#333]"
               >
-                {products.map((product) => (
-                  <li key={product.id} className="flex px-4 py-6 sm:px-6">
+             
+                  <li className="flex px-4 py-6 sm:px-6">
                     <div className="flex-shrink-0">
                       {coverImageSrc ? (
                         <img
@@ -462,7 +460,7 @@ export default function Upload() {
                       </div>
                     </div>
                   </li>
-                ))}
+             
               </ul>
               <div className="flex justify-between px-4 py-6 sm:px-6">
                 {audioSrc ? (
@@ -538,7 +536,7 @@ export default function Upload() {
   );
 }
 
-const SelectItem = React.forwardRef(
+const SelectItem = forwardRef(
   ({ children, className, ...props }, forwardedRef) => {
     return (
       <Select.Item
@@ -551,7 +549,10 @@ const SelectItem = React.forwardRef(
       >
         <Select.ItemText>{children}</Select.ItemText>
         <Select.ItemIndicator className="absolute left-0 w-[25px] inline-flex items-center justify-center">
-          <CheckIcon />
+          {/* <CheckIcon /> */}
+          <Suspense fallback={<div>Loading...</div>}>
+            <CheckIcon />
+          </Suspense>
         </Select.ItemIndicator>
       </Select.Item>
     );
