@@ -7,7 +7,7 @@ export default function AudioPlayerSkeleton() {
         <div className="flex flex-col">
           {/* Image */}
           <div className="flex justify-center">
-            <div className="bg-gray-200 dark:bg-[#333] w-96 h-96 animate-pulse rounded-md" />
+            <div className="bg-gray-200 dark:bg-[#333] w-[400px] h-[384px] animate-pulse" />
           </div>
 
           {/* Heat Count and Genre */}
