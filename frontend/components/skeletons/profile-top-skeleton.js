@@ -14,7 +14,7 @@ export default function ProfileTopSkeleton() {
               "flex w-16 flex-shrink-0 items-center justify-center rounded-l-md text-sm font-medium text-white"
             )}
           >
-            <div className="bg-gray-200 dark:bg-[#333] w-16 h-16 animate-pulse rounded-md" />
+            <div className="bg-gray-200 dark:bg-[#333] w-16 h-16 border border-gray-200 dark:border-[#333]  animate-pulse rounded-l-md" />
           </div>
           <div className="flex flex-1 items-center justify-between truncate rounded-r-md border-b border-r border-t border-gray-200 dark:border-[#333] bg-white dark:bg-[#111]">
             <div className="flex-1 truncate px-4 py-2 text-sm">

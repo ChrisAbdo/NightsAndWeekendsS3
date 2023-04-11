@@ -14,30 +14,27 @@ import {
   SquaresPlusIcon,
 } from "@heroicons/react/24/outline";
 import DarkModeToggle from "./dark-mode-toggle";
+import Link from "next/link";
 
 const solutions = [
   {
     name: "Listen",
     description: "Launch Etherwav and start listening",
-    href: "#",
+    href: "/listen",
     icon: ChartPieIcon,
   },
   {
     name: "Upload",
     description: "Upload your music to Etherwav",
-    href: "#",
+    href: "/upload",
     icon: CursorArrowRaysIcon,
   },
   {
     name: "Profile",
     description: "View your profile and settings",
-    href: "#",
+    href: "/profile",
     icon: FingerPrintIcon,
   },
-];
-const callsToAction = [
-  { name: "Watch demo", href: "#", icon: PlayCircleIcon },
-  { name: "Contact sales", href: "#", icon: PhoneIcon },
 ];
 
 export default function FlyoutMenu() {
@@ -73,10 +70,10 @@ export default function FlyoutMenu() {
                     />
                   </div>
                   <div>
-                    <a href={item.href} className="font-semibold">
+                    <Link href={item.href} className="font-semibold">
                       {item.name}
                       <span className="absolute inset-0" />
-                    </a>
+                    </Link>
                     <p className="mt-1 text-gray-600 dark:text-[#999]">
                       {item.description}
                     </p>
