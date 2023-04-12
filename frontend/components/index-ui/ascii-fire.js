@@ -28,11 +28,11 @@ const AsciiFireAnimation = () => {
   useEffect(() => {
     const height = 25;
     const size = width * height;
-    const b = [];
-    for (let i = 0; i < size + width + 1; i++) b[i] = 0;
+    const b = Array(size + width + 1).fill(0);
     const char = " ethrwav".split("");
+    let timeoutId;
 
-    function f() {
+    const animateFire = () => {
       for (let i = 0; i < 10; i++)
         b[Math.floor(Math.random() * width) + width * (height - 1)] = 70;
       let a = "";
@@ -47,11 +47,19 @@ const AsciiFireAnimation = () => {
       if (preRef.current) {
         preRef.current.firstChild.data = a;
       }
-      setTimeout(f, 30);
-    }
-    f();
-    controls.start({ opacity: 1, transition: { duration: 10 } }); // Duration increased to 4 seconds
-  }, [width]);
+      timeoutId = setTimeout(() => {
+        requestAnimationFrame(animateFire);
+      }, 35); // Adjust the delay here to control the speed of the animation
+    };
+
+    const animationId = requestAnimationFrame(animateFire);
+    controls.start({ opacity: 1, transition: { duration: 10 } });
+
+    return () => {
+      cancelAnimationFrame(animationId);
+      clearTimeout(timeoutId);
+    };
+  }, [width, controls]);
 
   return (
     <div className="overflow-hidden">
