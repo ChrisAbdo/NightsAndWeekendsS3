@@ -103,23 +103,53 @@ export default function Navbar() {
       }
 
       const accounts = await web3.eth.requestAccounts();
-      //  switch to mumbai testnet
-      await window.ethereum.request({
-        method: "wallet_addEthereumChain",
-        params: [
-          {
-            chainId: "0x13881",
-            chainName: "Matic Mumbai Testnet",
-            nativeCurrency: {
-              name: "MATIC",
-              symbol: "MATIC",
-              decimals: 18,
-            },
-            rpcUrls: ["https://rpc-mumbai.maticvigil.com/"],
-            blockExplorerUrls: ["https://mumbai.polygonscan.com/"],
-          },
-        ],
-      });
+      const chainId = "0x13881";
+      const mumbaiTestnetParams = {
+        chainId: chainId,
+        chainName: "Matic Mumbai Testnet",
+        nativeCurrency: {
+          name: "MATIC",
+          symbol: "MATIC",
+          decimals: 18,
+        },
+        rpcUrls: ["https://rpc-mumbai.maticvigil.com/"],
+        blockExplorerUrls: ["https://mumbai.polygonscan.com/"],
+      };
+
+      const currentChainId = await web3.eth.getChainId();
+
+      if (currentChainId !== chainId) {
+        try {
+          await window.ethereum.request({
+            method: "wallet_addEthereumChain",
+            params: [mumbaiTestnetParams],
+          });
+        } catch (switchError) {
+          console.error(switchError);
+        }
+      }
+
+      //  switch to mumbai testnet, only if not already on it
+      // await window.ethereum.request({
+      //   method: "wallet_addEthereumChain",
+      //   params: [
+      //     {
+      //       chainId: "0x13881",
+      //       chainName: "Matic Mumbai Testnet",
+      //       nativeCurrency: {
+      //         name: "MATIC",
+      //         symbol: "MATIC",
+      //         decimals: 18,
+      //       },
+      //       rpcUrls: ["https://rpc-mumbai.maticvigil.com/"],
+      //       blockExplorerUrls: ["https://mumbai.polygonscan.com/"],
+      //     },
+      //   ],
+      // });
+
+      // switch to matic mainnet, only if not already on it
+      // const chainId = await web3.eth.getChainId();
+      console.log("chainId", chainId);
 
       setConnectedAccount(accounts[0]);
     } catch (err) {
