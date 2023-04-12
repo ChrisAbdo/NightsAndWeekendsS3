@@ -7,6 +7,7 @@ import * as Select from "@radix-ui/react-select";
 
 import Radio from "@/contracts/Radio.json";
 import NFT from "@/contracts/NFT.json";
+
 import client from "@/hooks/useIPFSClient";
 
 const CheckIcon = lazy(() => import("@heroicons/react/20/solid/CheckIcon"));
@@ -147,27 +148,45 @@ export default function Upload() {
       );
 
       NFTContract.methods
-        .mint(url)
-        .send({ from: accounts[0] })
-        .on("receipt", function (receipt) {
-          console.log("minted");
-          // List the NFT
-          const tokenId = receipt.events.NFTMinted.returnValues[0];
-          radioContract.methods
-            .listNft(NFTContractAddress, tokenId)
-            .send({ from: accounts[0] })
-            .on("receipt", function () {
-              console.log("listed");
-              setLoading(false);
-              setShow(true);
-              setNotificationText("Success!");
-              setNotificationDescription(
-                "Your song is now available on the listen page."
-              );
-            });
-        });
+      .mint(url)
+      .send({ from: accounts[0] })
+      .on("receipt", function (receipt) {
+        console.log("minted");
+        // List the NFT
+        const tokenId = receipt.events.NFTMinted.returnValues[0];
+        radioContract.methods
+          .listNft(NFTContractAddress, tokenId)
+          .send({ from: accounts[0] })
+          .on("receipt", function () {
+            console.log("listed");
+            setLoading(false);
+            setShow(true);
+            setNotificationText("Success!");
+            setNotificationDescription(
+              "Your song is now available on the listen page."
+            );
+          })
+          .on("error", function (error) {
+            console.error("Error:", error);
+            setLoading(false);
+            setShow(true);
+            setNotificationText("Transaction Denied");
+            setNotificationDescription("You have denied the transaction.");
+          });
+      })
+      .on("error", function (error) {
+        console.error("Error:", error);
+        setLoading(false);
+        setShow(true);
+        setNotificationText("Transaction Denied");
+        setNotificationDescription("You have denied the transaction.");
+      });
+    
+
+       
     } catch (error) {
       console.log(error);
+      console.log("Error listing NFT for sale: ", error);
     }
   }
 
