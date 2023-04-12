@@ -1,15 +1,15 @@
-import { useTheme } from 'next-themes'
+import { useTheme } from "next-themes";
 import {
   GlobeAltIcon,
   HeartIcon,
   MusicalNoteIcon,
 } from "@heroicons/react/24/outline";
-import Image from 'next/image';
+import Image from "next/image";
 
 export default function ContentSection() {
-  const { theme, setTheme } = useTheme()
+  const { theme, setTheme } = useTheme();
   return (
-    <div className="relative isolate overflow-hidden bg-[#eaeaea] dark:bg-[#111]  px-6 py-24 sm:py-32 lg:overflow-visible lg:px-0">
+    <div className="relative isolate overflow-hidden bg-gray-50 dark:bg-[#111] bg-opacity-90 dark:bg-opacity-90 backdrop-blur-md dark:backdrop-blur-md px-6 py-24 sm:py-32 lg:overflow-visible lg:px-0">
       <div className="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 lg:mx-0 lg:max-w-none lg:grid-cols-2 lg:items-start lg:gap-y-10">
         <div className="lg:col-span-2 lg:col-start-1 lg:row-start-1 lg:mx-auto lg:grid lg:w-full lg:max-w-7xl lg:grid-cols-2 lg:gap-x-8 lg:px-8">
           <div className="lg:pr-4">
@@ -30,24 +30,22 @@ export default function ContentSection() {
         </div>
         <div className="-ml-12 -mt-12 p-12 lg:sticky lg:top-4 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:overflow-hidden">
           {/* if theme is light mode show this */}
-          {theme === 'light' ? (
-          <Image
-            className=" max-w-none rounded-xl bg-gray-900 shadow-xl ring-1 ring-gray-400/10 sm:w-[57rem]"
-            // src="https://tailwindui.com/img/component-images/dark-project-app-screenshot.png"
-            src="/lightmode.jpeg"
-            width={1000}
-            height={500}
-            alt=""
-          />
+          {theme === "light" ? (
+            <Image
+              className=" max-w-none rounded-xl bg-gray-900 shadow-xl ring-1 ring-gray-400/10 sm:w-[57rem]"
+              src="/lightmode.jpeg"
+              width={1000}
+              height={500}
+              alt=""
+            />
           ) : (
             <Image
-            className=" max-w-none rounded-xl bg-gray-900 shadow-xl ring-1 ring-gray-400/10 sm:w-[57rem]"
-            // src="https://tailwindui.com/img/component-images/dark-project-app-screenshot.png"
-            src="/darkmode.jpeg"
-            width={1000}
-            height={500}
-            alt=""
-          />
+              className=" max-w-none rounded-xl bg-gray-900 shadow-xl ring-1 ring-gray-400/10 sm:w-[57rem]"
+              src="/darkmode.jpeg"
+              width={1000}
+              height={500}
+              alt=""
+            />
           )}
         </div>
         <div className="lg:col-span-2 lg:col-start-1 lg:row-start-2 lg:mx-auto lg:grid lg:w-full lg:max-w-7xl lg:grid-cols-2 lg:gap-x-8 lg:px-8">

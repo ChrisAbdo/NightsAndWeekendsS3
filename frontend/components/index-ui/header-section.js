@@ -48,13 +48,13 @@ const fadeIn = {
 
 export default function HeaderSection() {
   return (
-    <motion.div className="relative isolate overflow-hidden bg-[#eaeaea] dark:bg-[#111] border-t border-black dark:border-[#333] bg-opacity-90 dark:bg-opacity-90 backdrop-blur-md dark:backdrop-blur-md py-24 sm:py-32 z-10">
+    <motion.div className="relative isolate overflow-hidden bg-gray-50 dark:bg-[#111] border-t border-gray-200 dark:border-[#333] bg-opacity-90 dark:bg-opacity-90 backdrop-blur-md dark:backdrop-blur-md py-24 sm:py-32 z-10">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto grid max-w-2xl grid-cols-1 gap-6 lg:mx-0 lg:max-w-none lg:grid-cols-3 lg:gap-8">
           {cards.map((card, index) => (
             <div
               key={card.name}
-              className="flex gap-x-4 rounded-xl  bg-[#fafafa] dark:bg-white/5 hover:bg-[#fafafa]/50 dark:hover:bg-[#333]/80 transition duration-200 p-6 ring-1 ring-inset ring-white/10 dark:ring-black/10"
+              className="flex gap-x-4 rounded-xl bg-[#eaeaea] dark:bg-white/5 hover:bg-[#eaeaea]/80 dark:hover:bg-[#333]/80 transition duration-200 p-6 ring-1 ring-inset ring-white/10 dark:ring-black/10"
             >
               <AnimatePresence>
                 <motion.div

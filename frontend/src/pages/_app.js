@@ -21,21 +21,9 @@ export default function App({ Component, pageProps }) {
   return (
     <main className={sourceCodePro.className}>
       <Head>
-  <title>Etherwav - Decentralized Community Music Player</title>
-  <meta name="description" content="Etherwav is a decentralized community music player built on Polygon. Create and share your music, and get rewarded when the community loves your work." />
-  <meta name="keywords" content="Etherwav, decentralized, music player, Polygon, blockchain, community, rewards, crypto, artists" />
-  <meta property="og:title" content="Etherwav - Decentralized Community Music Player" />
-  <meta property="og:description" content="Etherwav is a decentralized community music player built on Polygon. Create and share your music, and get rewarded when the community loves your work." />
-  <meta property="og:image" content="https://etherwav-s3.vercel.app/darkmode.jpeg" />
-  <meta property="og:url" content="https://your-website.com" />
-  <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="Etherwav" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Etherwav - Decentralized Community Music Player" />
-  <meta name="twitter:description" content="Etherwav is a decentralized community music player built on Polygon. Create and share your music, and get rewarded when the community loves your work." />
-  <meta name="twitter:image" content="https://etherwav-s3.vercel.app/darkmode.jpeg" />
-  <link rel="icon" href="/favicon.ico" />
-</Head>
+        <title>Etherwav</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
 
       <ThemeProvider defaultTheme="light">
         <div className="bg-white dark:bg-black">

@@ -1,6 +1,6 @@
 export default function ContactMe() {
   return (
-    <div className="bg-[#eaeaea] dark:bg-[#111] py-24 sm:py-32">
+    <div className="bg-gray-50 dark:bg-[#111] bg-opacity-90 dark:bg-opacity-90 backdrop-blur-md dark:backdrop-blur-md py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto max-w-2xl space-y-16 divide-y divide-gray-100 lg:mx-0 lg:max-w-none">
           <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-3">
@@ -13,7 +13,7 @@ export default function ContactMe() {
               </p>
             </div>
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:col-span-2 lg:gap-8">
-              <div className="rounded-2xl bg-gray-50 dark:bg-white/5 hover:bg-[#fafafa]/50 dark:hover:bg-[#333]/80 transition duration-200 p-10">
+            <div className="rounded-2xl bg-[#eaeaea] dark:bg-white/5 hover:bg-[#eaeaea]/80 dark:hover:bg-[#333]/80 transition duration-200 p-10">
                 <h3 className="text-base font-semibold leading-7 ">Email</h3>
                 <dl className="mt-3 space-y-1 text-sm leading-6 text-gray-600">
                   <div>
@@ -29,7 +29,7 @@ export default function ContactMe() {
                   </div>
                 </dl>
               </div>
-              <div className="rounded-2xl bg-gray-50 dark:bg-white/5 hover:bg-[#fafafa]/50 dark:hover:bg-[#333]/80 transition duration-200 p-10">
+              <div className="rounded-2xl bg-[#eaeaea] dark:bg-white/5 hover:bg-[#eaeaea]/80 dark:hover:bg-[#333]/80 transition duration-200 p-10">
                 <h3 className="text-base font-semibold leading-7 ">Twitter</h3>
                 <dl className="mt-3 space-y-1 text-sm leading-6 text-gray-600">
                   <div>
@@ -47,7 +47,7 @@ export default function ContactMe() {
                   </div>
                 </dl>
               </div>
-              <div className="rounded-2xl bg-gray-50 dark:bg-white/5 hover:bg-[#fafafa]/50 dark:hover:bg-[#333]/80 transition duration-200 p-10">
+              <div className="rounded-2xl bg-[#eaeaea] dark:bg-white/5 hover:bg-[#eaeaea]/80 dark:hover:bg-[#333]/80 transition duration-200 p-10">
                 <h3 className="text-base font-semibold leading-7 ">GitHub</h3>
                 <dl className="mt-3 space-y-1 text-sm leading-6 text-gray-600">
                   <div>
@@ -65,7 +65,7 @@ export default function ContactMe() {
                   </div>
                 </dl>
               </div>
-              <div className="rounded-2xl bg-gray-50 dark:bg-white/5 hover:bg-[#fafafa]/50 dark:hover:bg-[#333]/80 transition duration-200 p-10">
+              <div className="rounded-2xl bg-[#eaeaea] dark:bg-white/5 hover:bg-[#eaeaea]/80 dark:hover:bg-[#333]/80 transition duration-200 p-10">
                 <h3 className="text-base font-semibold leading-7 ">Lens</h3>
                 <dl className="mt-3 space-y-1 text-sm leading-6 text-gray-600">
                   <div>

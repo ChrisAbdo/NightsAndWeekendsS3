@@ -7,7 +7,7 @@ const stats = [
 
 export default function Stats() {
   return (
-    <div className="bg-[#eaeaea] dark:bg-[#111] py-24 sm:py-32">
+    <div className="bg-gray-50 dark:bg-[#111] bg-opacity-90 dark:bg-opacity-90 backdrop-blur-md dark:backdrop-blur-md py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto max-w-2xl lg:max-w-none">
           <div className="text-center">
@@ -23,7 +23,7 @@ export default function Stats() {
             {stats.map((stat) => (
               <div
                 key={stat.id}
-                className="flex flex-col bg-gray-50 dark:bg-white/5 hover:bg-[#fafafa]/50 dark:hover:bg-[#333]/80 transition duration-200 p-8"
+                className="flex flex-col bg-[#eaeaea] dark:bg-white/5 hover:bg-[#eaeaea]/80 dark:hover:bg-[#333]/80 transition duration-200 p-8"
               >
                 <dt className="text-sm font-semibold leading-6 text-gray-600 dark:text-[#999]">
                   {stat.name}

@@ -23,7 +23,7 @@ export default function Index() {
           <HeaderSection />
         </div>
 
-        <div className="sticky z-20 bg-[#eaeaea] dark:bg-[#111] ">
+        <div className="sticky z-20 bg-gray-50 dark:bg-[#111] bg-opacity-90 dark:bg-opacity-90 backdrop-blur-md dark:backdrop-blur-md">
           <ParallaxText baseVelocity={-1}>
             Etherwav Etherwav Etherwav
           </ParallaxText>
@@ -36,7 +36,7 @@ export default function Index() {
           <ContentSection />
         </div>
 
-        <div className="sticky z-20 bg-[#eaeaea] dark:bg-[#111] ">
+        <div className="sticky z-20 bg-gray-50 dark:bg-[#111] bg-opacity-90 dark:bg-opacity-90 backdrop-blur-md dark:backdrop-blur-md ">
           <ParallaxText baseVelocity={1}>
             Etherwav Etherwav Etherwav
           </ParallaxText>
