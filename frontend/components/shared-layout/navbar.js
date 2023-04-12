@@ -1,6 +1,14 @@
 import { Fragment, useState, useEffect } from "react";
+import dynamic from "next/dynamic";
 import DarkModeToggle from "./dark-mode-toggle";
-import WalletModal from "./wallet-modal";
+
+const WalletModal = dynamic(() => import("./wallet-modal"), {
+  ssr: false,
+});
+const FlyoutMenu = dynamic(() => import("./flyout-menu"), {
+  ssr: false,
+});
+
 import Web3 from "web3";
 import { Dialog, Disclosure, Popover, Transition } from "@headlessui/react";
 import {
@@ -13,7 +21,6 @@ import {
 } from "@heroicons/react/24/outline";
 import { ChevronDownIcon, PlayCircleIcon } from "@heroicons/react/20/solid";
 import Link from "next/link";
-import FlyoutMenu from "./flyout-menu";
 
 const products = [
   {
