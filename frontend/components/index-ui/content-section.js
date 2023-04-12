@@ -4,6 +4,7 @@ import {
   HeartIcon,
   MusicalNoteIcon,
 } from "@heroicons/react/24/outline";
+import Image from 'next/image';
 
 export default function ContentSection() {
   const { theme, setTheme } = useTheme()
@@ -30,17 +31,21 @@ export default function ContentSection() {
         <div className="-ml-12 -mt-12 p-12 lg:sticky lg:top-4 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:overflow-hidden">
           {/* if theme is light mode show this */}
           {theme === 'light' ? (
-          <img
-            className="w-[48rem] max-w-none rounded-xl bg-gray-900 shadow-xl ring-1 ring-gray-400/10 sm:w-[57rem]"
+          <Image
+            className=" max-w-none rounded-xl bg-gray-900 shadow-xl ring-1 ring-gray-400/10 sm:w-[57rem]"
             // src="https://tailwindui.com/img/component-images/dark-project-app-screenshot.png"
             src="/lightmode.jpeg"
+            width={1000}
+            height={500}
             alt=""
           />
           ) : (
-            <img
-            className="w-[48rem] max-w-none rounded-xl bg-gray-900 shadow-xl ring-1 ring-gray-400/10 sm:w-[57rem]"
+            <Image
+            className=" max-w-none rounded-xl bg-gray-900 shadow-xl ring-1 ring-gray-400/10 sm:w-[57rem]"
             // src="https://tailwindui.com/img/component-images/dark-project-app-screenshot.png"
             src="/darkmode.jpeg"
+            width={1000}
+            height={500}
             alt=""
           />
           )}
