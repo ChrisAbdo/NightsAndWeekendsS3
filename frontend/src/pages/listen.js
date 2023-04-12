@@ -180,11 +180,11 @@ export default function Listen() {
 
   async function loadSongs() {
     console.log("Loading songs...");
-    // const infuraUrl =
-    //   "https://polygon-mumbai.infura.io/v3/bc3a18f867074b7186d877cb4d45675a";
-    // const web3 = new Web3(infuraUrl);
+    const infuraUrl =
+      "https://polygon-mumbai.infura.io/v3/bc3a18f867074b7186d877cb4d45675a";
+    const web3 = new Web3(infuraUrl);
 
-    const web3 = new Web3(window.ethereum);
+    // const web3 = new Web3(window.ethereum);
 
     const networkId = await web3.eth.net.getId();
 
