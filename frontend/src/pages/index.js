@@ -1,13 +1,35 @@
 import React from "react";
 
-import AsciiFireAnimation from "@/components/index-ui/ascii-fire";
-import HeaderSection from "@/components/index-ui/header-section";
-import ParallaxText from "@/components/shared-layout/parallax-text";
-import ContentSection from "@/components/index-ui/content-section";
+import dynamic from "next/dynamic";
+
+const AsciiFireAnimation = dynamic(
+  () => import("@/components/index-ui/ascii-fire"),
+  { ssr: false }
+);
+const HeaderSection = dynamic(
+  () => import("@/components/index-ui/header-section"),
+  { ssr: false }
+);
+const ParallaxText = dynamic(
+  () => import("@/components/shared-layout/parallax-text"),
+  { ssr: false }
+);
+const ContentSection = dynamic(
+  () => import("@/components/index-ui/content-section"),
+  { ssr: false }
+);
+const Stats = dynamic(() => import("@/components/index-ui/stats"), {
+  ssr: false,
+});
+const ContactMe = dynamic(() => import("@/components/index-ui/contact-me"), {
+  ssr: false,
+});
+const Footer = dynamic(() => import("@/components/index-ui/footer"), {
+  ssr: false,
+});
+
 import Link from "next/link";
-import Stats from "@/components/index-ui/stats";
-import ContactMe from "@/components/index-ui/contact-me";
-import Footer from "@/components/index-ui/footer";
+
 
 export default function Index() {
   return (
