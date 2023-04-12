@@ -1,6 +1,9 @@
 import { Fragment, useState, useEffect } from "react";
 import dynamic from "next/dynamic";
-import DarkModeToggle from "./dark-mode-toggle";
+// import DarkModeToggle from "./dark-mode-toggle";
+const DarkModeToggle = dynamic(() => import("./dark-mode-toggle"), {
+  ssr: false,
+});
 
 const WalletModal = dynamic(() => import("./wallet-modal"), {
   ssr: false,
@@ -80,21 +83,21 @@ export default function Navbar() {
       setConnectedAccount(null);
     };
 
-    if (window.ethereum) {
-      window.ethereum.on("accountsChanged", handleAccountsChanged);
-      window.ethereum.on("disconnect", handleDisconnect);
+    if (web3.currentProvider) {
+      web3.currentProvider.on("accountsChanged", handleAccountsChanged);
+      web3.currentProvider.on("disconnect", handleDisconnect);
     }
 
     loadConnectedAccount();
 
     // Cleanup function
     return () => {
-      if (window.ethereum) {
-        window.ethereum.removeListener(
+      if (web3.currentProvider) {
+        web3.currentProvider.removeListener(
           "accountsChanged",
           handleAccountsChanged
         );
-        window.ethereum.removeListener("disconnect", handleDisconnect);
+        web3.currentProvider.removeListener("disconnect", handleDisconnect);
       }
     };
   }, []);
@@ -243,9 +246,10 @@ export default function Navbar() {
             {loading ? (
               <button
                 type="button"
-                onClick={() => setOpen(true)}
+                
                 className="w-full rounded-md bg-transparent px-5 py-2 text-sm font-semibold text-black dark:text-white shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-[#333] hover:bg-gray-200 dark:hover:bg-[#111] transition duration-200 flex items-center justify-center"
               >
+                <span className="sr-only">Loading...</span>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="20"

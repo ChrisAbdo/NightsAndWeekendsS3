@@ -46,12 +46,12 @@ export default function HeaderSection() {
                   animate="visible"
                   exit="hidden"
                 >
-                  <h3 className="font-semibold text-black dark:text-white">
+                  <h1 className="font-semibold text-black dark:text-white">
                     <span className="flex items-center">
                       {card.icon}
                       <span className="ml-1">{card.name}</span>
                     </span>
-                  </h3>
+                  </h1>
                   <p className="mt-2 text-black dark:text-white">
                     {card.description}
                   </p>
