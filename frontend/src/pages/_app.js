@@ -8,8 +8,11 @@ import { ThemeProvider } from "next-themes";
 import { Source_Code_Pro } from "next/font/google";
 
 import dynamic from "next/dynamic";
+import NavbarSkeleton from "@/components/skeletons/navbar-skeleton";
+
 const Navbar = dynamic(() => import("@/components/shared-layout/navbar"), {
-  loading: () => <p>Loading...</p>,
+  loading: () => <NavbarSkeleton />,
+  ssr: false,
 });
 
 const sourceCodePro = Source_Code_Pro({

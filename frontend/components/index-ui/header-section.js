@@ -8,43 +8,25 @@ import {
 
 const cards = [
   {
-    name: (
-      <div className="flex items-center">
-        <GlobeAltIcon className="mr-1 h-5 w-5" />
-        Community Driven
-        <GlobeAltIcon className="ml-1 h-5 w-5" />
-      </div>
-    ),
+    name: "Community Driven",
+    icon: <GlobeAltIcon className="h-5 w-5" />,
     description:
       "Etherwav is a community driven music platform. Artists can upload their music and anyone can listen to it. Fans can also tip the artists with a built-in system.",
   },
   {
-    name: (
-      <div className="flex items-center">
-        <FireIcon className="mr-1 h-5 w-5" />
-        Heat Leaderboard
-        <FireIcon className="ml-1 h-5 w-5" />
-      </div>
-    ),
+    name: "Heat Leaderboard",
+    icon: <FireIcon className="h-5 w-5" />,
     description:
       "The heat leaderboard is a way to show the most popular artists on Etherwav. Songs with more heat get pushed to the top of the queue, meaning users will see these songs first. The leaderboard is updated every second, just refresh!",
   },
   {
-    name: (
-      <div className="flex items-center">
-        <MusicalNoteIcon className="mr-1 h-5 w-5" />
-        Find New Music
-        <MusicalNoteIcon className="ml-1 h-5 w-5" />
-      </div>
-    ),
+    name: "Find New Music",
+    icon: <MusicalNoteIcon className="h-5 w-5" />,
     description:
       "Etherwav is a great place to find new music. You can search for artists, songs, or genres. If you're looking for something specific, you can also filter by genre.",
   },
 ];
-const fadeIn = {
-  hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { duration: 1.5 } },
-};
+
 
 export default function HeaderSection() {
   return (
@@ -59,13 +41,16 @@ export default function HeaderSection() {
               <AnimatePresence>
                 <motion.div
                   className="text-base leading-7"
-                  variants={fadeIn}
+                 
                   initial="hidden"
                   animate="visible"
                   exit="hidden"
                 >
                   <h3 className="font-semibold text-black dark:text-white">
-                    {card.name}
+                    <span className="flex items-center">
+                      {card.icon}
+                      <span className="ml-1">{card.name}</span>
+                    </span>
                   </h3>
                   <p className="mt-2 text-black dark:text-white">
                     {card.description}

@@ -1,18 +1,7 @@
-import { Fragment, useState, useEffect } from "react";
-import dynamic from "next/dynamic";
-import DarkModeToggle from "./dark-mode-toggle";
-
-const WalletModal = dynamic(() => import("./wallet-modal"), {
-  ssr: false,
-});
-const FlyoutMenu = dynamic(() => import("./flyout-menu"), {
-  ssr: false,
-});
-
-import Web3 from "web3";
+import { Fragment } from "react";
+import DarkModeToggle from "@/components/shared-layout/dark-mode-toggle";
 import { Dialog, Disclosure, Popover, Transition } from "@headlessui/react";
 import {
-  Bars3Icon,
   ChartPieIcon,
   CursorArrowRaysIcon,
   FireIcon,
@@ -21,6 +10,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { ChevronDownIcon, PlayCircleIcon } from "@heroicons/react/20/solid";
 import Link from "next/link";
+import ThemeSkeleton from "./theme-skeleton";
 
 const products = [
   {
@@ -49,101 +39,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function Navbar() {
-  const [open, setOpen] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [error, setError] = useState(false);
-  const [loading, setLoading] = useState(true);
-
-  const web3 = new Web3(Web3.givenProvider);
-
-  const [connectedAccount, setConnectedAccount] = useState("");
-
-  useEffect(() => {
-    if (typeof window === "undefined") return; // This checks if the window object is available
-
-    const loadConnectedAccount = async () => {
-      const accounts = await web3.eth.getAccounts();
-      if (accounts.length > 0) {
-        setConnectedAccount(accounts[0]);
-      }
-      setLoading(false); // Set loading to false after the account is loaded or no account is found
-    };
-
-    // event listener for MetaMask account change
-    const handleAccountsChanged = (accounts) => {
-      setConnectedAccount(accounts[0]);
-    };
-
-    // event listener for MetaMask disconnect
-    const handleDisconnect = (error) => {
-      setConnectedAccount(null);
-    };
-
-    if (window.ethereum) {
-      window.ethereum.on("accountsChanged", handleAccountsChanged);
-      window.ethereum.on("disconnect", handleDisconnect);
-    }
-
-    loadConnectedAccount();
-
-    // Cleanup function
-    return () => {
-      if (window.ethereum) {
-        window.ethereum.removeListener(
-          "accountsChanged",
-          handleAccountsChanged
-        );
-        window.ethereum.removeListener("disconnect", handleDisconnect);
-      }
-    };
-  }, []);
-
-  const connectWallet = async () => {
-    try {
-      if (!web3 || !web3.currentProvider) {
-        console.error(
-          "No Ethereum provider found. Please install MetaMask or use a compatible browser."
-        );
-        setError(true);
-        return;
-      }
-
-      const accounts = await web3.eth.requestAccounts();
-      const chainId = "0x13881";
-      const mumbaiTestnetParams = {
-        chainId: chainId,
-        chainName: "Matic Mumbai Testnet",
-        nativeCurrency: {
-          name: "MATIC",
-          symbol: "MATIC",
-          decimals: 18,
-        },
-        rpcUrls: ["https://rpc-mumbai.maticvigil.com/"],
-        blockExplorerUrls: ["https://mumbai.polygonscan.com/"],
-      };
-
-      const currentChainId = await web3.eth.getChainId();
-
-      if (currentChainId !== chainId) {
-        try {
-          await window.ethereum.request({
-            method: "wallet_addEthereumChain",
-            params: [mumbaiTestnetParams],
-          });
-        } catch (switchError) {
-          console.error(switchError);
-        }
-      }
-
-      console.log("chainId", chainId);
-
-      setConnectedAccount(accounts[0]);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
+export default function NavbarSkeleton() {
   return (
     <header className="sticky top-0 bg-white dark:bg-black border-b border-gray-200 dark:border-[#333] z-50">
       <nav
@@ -238,9 +134,8 @@ export default function Navbar() {
           </Link>
         </Popover.Group>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-       
           <div className="flex items-center justify-center w-40">
-            {loading ? (
+            {/* {loading ? (
               <button
                 type="button"
                 onClick={() => setOpen(true)}
@@ -277,25 +172,33 @@ export default function Navbar() {
               >
                 <span>Connect Wallet</span>
               </button>
-            )}
+            )} */}
+             <button
+                type="button"
+              
+                className="w-full rounded-md bg-transparent px-3 py-2 text-sm font-semibold text-black dark:text-white shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-[#333] hover:bg-gray-200 dark:hover:bg-[#111] transition duration-200 flex items-center justify-center"
+              >
+                <span>Connect Wallet</span>
+              </button>
           </div>
 
           <div className="flex items-center ml-4">
-            <DarkModeToggle />
+            {/* <DarkModeToggle /> */}
+            <ThemeSkeleton />
           </div>
 
-          <WalletModal
+          {/* <WalletModal
             open={open}
             setOpen={setOpen}
             connectWallet={connectWallet}
             connectedAccount={connectedAccount}
             setConnectedAccount={setConnectedAccount}
             error={error}
-          />
+          /> */}
         </div>
 
         <div className="flex lg:hidden space-x-2">
-          {connectedAccount && (
+          {/* {connectedAccount && (
             <button
               type="button"
               onClick={() => setOpen(true)}
@@ -313,102 +216,10 @@ export default function Navbar() {
             >
               <span>Connect Wallet</span>
             </button>
-          )}
-          <div className="flex items-center">
-            <FlyoutMenu />
-          </div>
+          )} */}
+          <div className="flex items-center">{/* <FlyoutMenu /> */}</div>
         </div>
       </nav>
-      <Dialog
-        as="div"
-        className="lg:hidden"
-        open={mobileMenuOpen}
-        onClose={setMobileMenuOpen}
-      >
-        <div className="fixed inset-0 z-10" />
-        <Dialog.Panel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
-          <div className="flex items-center justify-between">
-            <Link href="#" className="-m-1.5 p-1.5">
-              <span className="sr-only">Your Company</span>
-              <img
-                className="h-8 w-auto"
-                src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                alt=""
-              />
-            </Link>
-            <button
-              type="button"
-              className="-m-2.5 rounded-md p-2.5 text-gray-700"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              <span className="sr-only">Close menu</span>
-              <XMarkIcon className="h-6 w-6" aria-hidden="true" />
-            </button>
-          </div>
-          <div className="mt-6 flow-root">
-            <div className="-my-6 divide-y divide-gray-500/10">
-              <div className="space-y-2 py-6">
-                <Disclosure as="div" className="-mx-3">
-                  {({ open }) => (
-                    <>
-                      <Disclosure.Button className="flex w-full items-center justify-between rounded-lg py-2 pl-3 pr-3.5 text-base font-semibold leading-7 hover:bg-gray-50">
-                        Product
-                        <ChevronDownIcon
-                          className={classNames(
-                            open ? "rotate-180" : "",
-                            "h-5 w-5 flex-none"
-                          )}
-                          aria-hidden="true"
-                        />
-                      </Disclosure.Button>
-                      <Disclosure.Panel className="mt-2 space-y-2">
-                        {[...products, ...callsToAction].map((item) => (
-                          <Disclosure.Button
-                            key={item.name}
-                            as="a"
-                            href={item.href}
-                            className="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                          >
-                            {item.name}
-                          </Disclosure.Button>
-                        ))}
-                      </Disclosure.Panel>
-                    </>
-                  )}
-                </Disclosure>
-                <a
-                  href="#"
-                  className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-black dark:text-white hover:bg-gray-50"
-                >
-                  Features
-                </a>
-                <a
-                  href="#"
-                  className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-black dark:text-white hover:bg-gray-50"
-                >
-                  Marketplace
-                </a>
-                <a
-                  href="#"
-                  className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-black dark:text-white hover:bg-gray-50"
-                >
-                  Company
-                </a>
-              </div>
-              <div className="py-6">
-                <a
-                  href="#"
-                  className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                >
-                  Log in
-                </a>
-
-                <DarkModeToggle />
-              </div>
-            </div>
-          </div>
-        </Dialog.Panel>
-      </Dialog>
     </header>
   );
 }
