@@ -28,17 +28,29 @@ import Link from "next/link";
 import { FireIcon } from "@heroicons/react/20/solid";
 
 const InfoModal = dynamic(() => import("@/components/listen-ui/info-modal"));
-const HeatSlideover = dynamic(() => import("@/components/listen-ui/heat-slideover"));
-const CommandPalette = dynamic(() => import("@/components/listen-ui/command-palette"));
+const HeatSlideover = dynamic(() =>
+  import("@/components/listen-ui/heat-slideover")
+);
+const CommandPalette = dynamic(() =>
+  import("@/components/listen-ui/command-palette")
+);
 const SortRadio = dynamic(() => import("@/components/listen-ui/sort-radio"));
 const SortGenre = dynamic(() => import("@/components/listen-ui/sort-genre"));
-const QueueSkeleton = dynamic(() => import("@/components/skeletons/queue-skeleton"));
-const LeaderboardSkeleton = dynamic(() => import("@/components/skeletons/leaderboard-skeleton"));
-const AudioPlayerSkeleton = dynamic(() => import("@/components/skeletons/audio-player-skeleton"));
-const RecentSkeleton = dynamic(() => import("@/components/skeletons/recent-skeleton"));
-const Notification = dynamic(() => import("@/components/listen-ui/notification"));
-
-
+const QueueSkeleton = dynamic(() =>
+  import("@/components/skeletons/queue-skeleton")
+);
+const LeaderboardSkeleton = dynamic(() =>
+  import("@/components/skeletons/leaderboard-skeleton")
+);
+const AudioPlayerSkeleton = dynamic(() =>
+  import("@/components/skeletons/audio-player-skeleton")
+);
+const RecentSkeleton = dynamic(() =>
+  import("@/components/skeletons/recent-skeleton")
+);
+const Notification = dynamic(() =>
+  import("@/components/listen-ui/notification")
+);
 
 const navigation = [
   { name: "Dashboard", href: "#", icon: HomeIcon, current: true },

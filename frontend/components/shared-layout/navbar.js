@@ -1,6 +1,5 @@
-import { Fragment, useState, useEffect } from "react";
+import { Fragment, useState, useEffect, useCallback } from "react";
 import dynamic from "next/dynamic";
-// import DarkModeToggle from "./dark-mode-toggle";
 const DarkModeToggle = dynamic(() => import("./dark-mode-toggle"), {
   ssr: false,
 });
@@ -62,46 +61,15 @@ export default function Navbar() {
 
   const [connectedAccount, setConnectedAccount] = useState("");
 
-  useEffect(() => {
-    if (typeof window === "undefined") return; // This checks if the window object is available
+  const loadConnectedAccount = useCallback(async () => {
+    if (!web3) return;
 
-    const loadConnectedAccount = async () => {
-      const accounts = await web3.eth.getAccounts();
-      if (accounts.length > 0) {
-        setConnectedAccount(accounts[0]);
-      }
-      setLoading(false); // Set loading to false after the account is loaded or no account is found
-    };
-
-    // event listener for MetaMask account change
-    const handleAccountsChanged = (accounts) => {
+    const accounts = await web3.eth.getAccounts();
+    if (accounts.length > 0) {
       setConnectedAccount(accounts[0]);
-    };
-
-    // event listener for MetaMask disconnect
-    const handleDisconnect = (error) => {
-      setConnectedAccount(null);
-    };
-
-    if (web3.currentProvider) {
-      web3.currentProvider.on("accountsChanged", handleAccountsChanged);
-      web3.currentProvider.on("disconnect", handleDisconnect);
     }
-
-    loadConnectedAccount();
-
-    // Cleanup function
-    return () => {
-      if (web3.currentProvider) {
-        web3.currentProvider.removeListener(
-          "accountsChanged",
-          handleAccountsChanged
-        );
-        web3.currentProvider.removeListener("disconnect", handleDisconnect);
-      }
-    };
-  }, []);
-
+    setLoading(false);
+  }, [web3, setConnectedAccount, setLoading]);
   const connectWallet = async () => {
     try {
       if (!web3 || !web3.currentProvider) {
@@ -146,6 +114,38 @@ export default function Navbar() {
       console.error(err);
     }
   };
+  const handleAccountsChanged = useCallback(
+    (accounts) => {
+      setConnectedAccount(accounts[0]);
+    },
+    [setConnectedAccount]
+  );
+
+  const handleDisconnect = useCallback(() => {
+    setConnectedAccount(null);
+  }, [setConnectedAccount]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    if (web3?.currentProvider) {
+      web3.currentProvider.on("accountsChanged", handleAccountsChanged);
+      web3.currentProvider.on("disconnect", handleDisconnect);
+    }
+
+    loadConnectedAccount();
+
+    // Cleanup function
+    return () => {
+      if (web3?.currentProvider) {
+        web3.currentProvider.removeListener(
+          "accountsChanged",
+          handleAccountsChanged
+        );
+        web3.currentProvider.removeListener("disconnect", handleDisconnect);
+      }
+    };
+  }, [web3, handleAccountsChanged, handleDisconnect, loadConnectedAccount]);
 
   return (
     <header className="sticky top-0 bg-white dark:bg-black border-b border-gray-200 dark:border-[#333] z-50">
@@ -241,12 +241,10 @@ export default function Navbar() {
           </Link>
         </Popover.Group>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-       
           <div className="flex items-center justify-center w-40">
             {loading ? (
               <button
                 type="button"
-                
                 className="w-full rounded-md bg-transparent px-5 py-2 text-sm font-semibold text-black dark:text-white shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-[#333] hover:bg-gray-200 dark:hover:bg-[#111] transition duration-200 flex items-center justify-center"
               >
                 <span className="sr-only">Loading...</span>
