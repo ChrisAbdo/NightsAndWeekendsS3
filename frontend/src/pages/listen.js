@@ -274,6 +274,17 @@ export default function Listen() {
     }
   }
 
+  function shuffleSongs() {
+    const shuffledNfts = [...nfts]; // Create a shallow copy of the nfts array to avoid mutating the original array
+
+    for (let i = shuffledNfts.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffledNfts[i], shuffledNfts[j]] = [shuffledNfts[j], shuffledNfts[i]];
+    }
+
+    setNfts(shuffledNfts); // Update the state with the shuffled array
+  }
+
   async function handleGiveHeat() {
     // Get an instance of the Radio contract
     try {
@@ -311,6 +322,7 @@ export default function Listen() {
     setCurrentIndex((currentIndex + 1) % nfts.length);
     setIsPlaying(true);
   }
+  
   function handlePrevious() {
     setDirection("left");
     setCurrentIndex(currentIndex === 0 ? nfts.length - 1 : currentIndex - 1);
@@ -527,6 +539,7 @@ export default function Listen() {
                 <div className="mt-4 flex items-center justify-center">
                   <button
                     type="button"
+                    onClick={shuffleSongs}
                     className="flex rounded-md w-full items-center justify-center bg-transparent px-3 py-1.5 text-sm font-semibold text-black dark:text-white shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-[#333] hover:bg-gray-200 dark:hover:bg-[#111] transition duration-200"
                   >
                     <svg
