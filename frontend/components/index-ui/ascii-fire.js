@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useLayoutEffect, useRef, useState } from "react";
 import { motion, useAnimation } from "framer-motion";
 
 const AsciiFireAnimation = () => {
@@ -11,21 +11,33 @@ const AsciiFireAnimation = () => {
     return 80;
   });
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (typeof window === "undefined") return;
 
     const updateWidth = () => {
       setWidth(Math.floor(window.innerWidth / 5));
     };
 
-    window.addEventListener("resize", updateWidth);
+    const debounce = (func, wait) => {
+      let timeout;
+      return (...args) => {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => {
+          func.apply(this, args);
+        }, wait);
+      };
+    };
+
+    const debouncedUpdateWidth = debounce(updateWidth, 250);
+
+    window.addEventListener("resize", debouncedUpdateWidth);
 
     return () => {
-      window.removeEventListener("resize", updateWidth);
+      window.removeEventListener("resize", debouncedUpdateWidth);
     };
   }, []);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const height = 25;
     const size = width * height;
     const b = [];
@@ -47,10 +59,10 @@ const AsciiFireAnimation = () => {
       if (preRef.current) {
         preRef.current.firstChild.data = a;
       }
-      setTimeout(f, 30);
+      requestAnimationFrame(f);
     }
     f();
-    controls.start({ opacity: 1, transition: { duration: 10 } }); // Duration increased to 4 seconds
+    controls.start({ opacity: 1, transition: { duration: 10 } });
   }, [width]);
 
   return (
@@ -61,8 +73,7 @@ const AsciiFireAnimation = () => {
         initial={{ opacity: 0 }}
         animate={controls}
       >
-        This animated fire in plain ASCII art needs JavaScript to run in your
-        web browser.
+        Javascript is required to view this dope animation.
       </motion.pre>
     </div>
   );
