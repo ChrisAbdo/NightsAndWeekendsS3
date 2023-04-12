@@ -283,6 +283,9 @@ export default function Listen() {
     }
 
     setNfts(shuffledNfts); // Update the state with the shuffled array
+    setShow(true);
+    setNotificationDescription("You are now listening to shuffled music.");
+    setNotificationText("Shuffle changed!");
   }
 
   async function handleGiveHeat() {
@@ -322,7 +325,7 @@ export default function Listen() {
     setCurrentIndex((currentIndex + 1) % nfts.length);
     setIsPlaying(true);
   }
-  
+
   function handlePrevious() {
     setDirection("left");
     setCurrentIndex(currentIndex === 0 ? nfts.length - 1 : currentIndex - 1);
@@ -501,7 +504,7 @@ export default function Listen() {
                     name="search"
                     id="search"
                     onClick={() => setCommandOpen(true)}
-                    className="block w-full text-left rounded-md border-0 py-1.5 pr-14 bg-white dark:bg-black hover:bg-gray-200 dark:hover:bg-[#111] transition duration-150 shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-[#333] placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    className="block w-full text-left rounded-md border-0 py-1.5 pr-14 bg-white dark:bg-black hover:bg-gray-200 dark:hover:bg-[#111] transition duration-150 shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-[#333] placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6"
                   >
                     <span className="flex items-center pl-3 pointer-events-none">
                       Search songs

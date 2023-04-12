@@ -66,7 +66,7 @@ export default function CommandPalette({
                         aria-hidden="true"
                       />
                       <Combobox.Input
-                        className="h-12 w-full border-0 bg-transparent pl-11 pr-4 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm"
+                        className="h-12 w-full border-0 bg-transparent pl-11 pr-4  placeholder:text-gray-400 focus:ring-0 sm:text-sm"
                         placeholder="Search..."
                         onChange={(event) => setQuery(event.target.value)}
                       />
@@ -138,6 +138,9 @@ export default function CommandPalette({
                                 <FireIcon className="inline h-4 w-4" />
                               </h2>
                               <p className="text-sm leading-6 text-gray-500 dark:text-[#999]">
+                                {activeOption.seller.slice(0, 5)}...{activeOption.seller.slice(-4)}
+                              </p>
+                              <p className="text-sm leading-6 text-gray-500 dark:text-[#999]">
                                 {activeOption.genre}
                               </p>
                             </div>
@@ -150,6 +153,7 @@ export default function CommandPalette({
                                     key={activeOption.id}
                                     type="audio/mpeg"
                                   />
+                                 
                                 </dd>
                               </dl>
                             </div>

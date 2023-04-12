@@ -122,6 +122,24 @@ export default function Navbar() {
       }
 
       const accounts = await web3.eth.requestAccounts();
+      //  switch to mumbai testnet
+      await window.ethereum.request({
+        method: "wallet_addEthereumChain",
+        params: [
+          {
+            chainId: "0x13881",
+            chainName: "Matic Mumbai Testnet",
+            nativeCurrency: {
+              name: "MATIC",
+              symbol: "MATIC",
+              decimals: 18,
+            },
+            rpcUrls: ["https://rpc-mumbai.maticvigil.com/"],
+            blockExplorerUrls: ["https://mumbai.polygonscan.com/"],
+          },
+        ],
+      });
+
       setConnectedAccount(accounts[0]);
     } catch (err) {
       console.error(err);
@@ -143,7 +161,7 @@ export default function Navbar() {
             </h1>
           </Link>
         </div>
-      
+
         <Popover.Group className="hidden lg:flex lg:gap-x-12">
           <Popover className="relative">
             <Popover.Button className="flex items-center gap-x-1 text-sm font-semibold leading-6 text-black dark:text-white">
