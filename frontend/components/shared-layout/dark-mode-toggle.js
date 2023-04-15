@@ -11,15 +11,25 @@ export default function DarkModeToggle() {
   const { theme, setTheme } = useTheme();
 
   const [enabled, setEnabled] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setEnabled(theme === "dark");
-  }, [theme]);
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (mounted) {
+      setEnabled(theme === "dark");
+    }
+  }, [theme, mounted]);
 
   const handleToggleChange = (value) => {
     setEnabled(value);
     setTheme(value ? "dark" : "light");
   };
+
+  // This ensures that the component is not rendered server-side
+  if (!mounted) return null;
 
   return (
     <Switch

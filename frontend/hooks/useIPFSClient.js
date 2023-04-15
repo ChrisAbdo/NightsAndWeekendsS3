@@ -1,5 +1,3 @@
-// hooks/useIPFSClient.js or utils/useIPFSClient.js
-
 const ipfsClient = require("ipfs-http-client");
 
 const projectId = "2OFayY3iAT7Lm9zEBMn1lqqo61V";
