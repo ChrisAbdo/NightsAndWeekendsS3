@@ -11,6 +11,9 @@ import NFT from "@/contracts/NFT.json";
 
 import client from "@/hooks/useIPFSClient";
 
+import { glidingAnimation } from "@/components/framer-animations/gliding-animation";
+import { inputVariants } from "@/components/framer-animations/input-animation";
+
 const CheckIcon = lazy(() => import("@heroicons/react/20/solid/CheckIcon"));
 const ChevronDownIcon = lazy(() =>
   import("@heroicons/react/20/solid/ChevronDownIcon")
@@ -28,14 +31,6 @@ const Notification = dynamic(() =>
   import("@/components/listen-ui/notification")
 );
 
-const inputVariants = {
-  hidden: { opacity: 0, y: -50 },
-  visible: (i) => ({
-    opacity: 1,
-    y: 0,
-    transition: { delay: i * 0.1 },
-  }),
-};
 
 export default function Upload() {
   const [audioSrc, setAudioSrc] = useState();
@@ -468,21 +463,33 @@ export default function Upload() {
                   <div className="ml-6 flex flex-1 flex-col">
                     <div className="flex">
                       <div className="min-w-0 flex-1 space-y-1.5">
-                        {titleSrc ? (
-                          <h4 className="text-md font-medium text-black dark:text-white">
-                            {titleSrc}
-                          </h4>
-                        ) : (
-                          <div className="bg-gray-200 dark:bg-[#333] w-full h-7 animate-pulse rounded-md" />
-                        )}
+                      {titleSrc ? (
+  <motion.h4
+    className="text-md font-medium text-black dark:text-white"
+    initial="initial"
+    animate="animate"
+    transition="transition"
+    variants={glidingAnimation}
+  >
+    {titleSrc}
+  </motion.h4>
+) : (
+  <div className="bg-gray-200 dark:bg-[#333] w-full h-7 animate-pulse rounded-md" />
+)}
 
-                        {genreSrc ? (
-                          <h4 className="text-md font-medium text-black dark:text-white">
-                            {genreSrc}
-                          </h4>
-                        ) : (
-                          <div className="bg-gray-200 dark:bg-[#333] w-full h-7 animate-pulse rounded-md" />
-                        )}
+{genreSrc ? (
+  <motion.h4
+    className="text-md font-medium text-black dark:text-white"
+    initial="initial"
+    animate="animate"
+    transition="transition"
+    variants={glidingAnimation}
+  >
+    {genreSrc}
+  </motion.h4>
+) : (
+  <div className="bg-gray-200 dark:bg-[#333] w-full h-7 animate-pulse rounded-md" />
+)}
                       </div>
 
                       <div className="ml-4 flow-root flex-shrink-0">

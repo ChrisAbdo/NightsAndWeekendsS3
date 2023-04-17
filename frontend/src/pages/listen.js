@@ -26,7 +26,7 @@ import {
 } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { FireIcon } from "@heroicons/react/20/solid";
-
+import { transition } from "@/components/framer-animations/listen-transition";
 const InfoModal = dynamic(() => import("@/components/listen-ui/info-modal"));
 const HeatSlideover = dynamic(() =>
   import("@/components/listen-ui/heat-slideover")
@@ -70,7 +70,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-const transition = { duration: 0.5, ease: [0.43, 0.13, 0.23, 0.96] };
+// const transition = { duration: 0.5, ease: [0.43, 0.13, 0.23, 0.96] };
 
 export default function Listen() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
