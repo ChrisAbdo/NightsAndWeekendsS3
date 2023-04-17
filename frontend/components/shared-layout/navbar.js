@@ -53,6 +53,7 @@ function classNames(...classes) {
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const [demoModalOpen, setDemoModalOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -165,7 +166,7 @@ export default function Navbar() {
 
         <Popover.Group className="hidden lg:flex lg:gap-x-12">
           <Popover className="relative">
-            <Popover.Button className="flex items-center gap-x-1 text-sm font-semibold leading-6 text-black dark:text-white">
+            <Popover.Button className="flex items-center gap-x-1 text-sm font-semibold leading-6 text-black dark:text-white focus:ring-orange-500 dark:focus:ring-orange-500 focus:ring-1 dark:focus:ring-1 rounded-md">
               Listen
               <ChevronDownIcon
                 className="h-5 w-5 flex-none text-gray-400"
@@ -208,19 +209,20 @@ export default function Navbar() {
                   ))}
                 </div>
                 <div className="grid grid-cols-2 divide-x divide-gray-900/5 dark:divide-[#333] bg-gray-50 dark:bg-[#111] dark:border-t dark:border-[#333]">
-                  {callsToAction.map((item) => (
-                    <Link
-                      key={item.name}
-                      href={item.href}
-                      className="flex items-center justify-center gap-x-2.5 p-3 text-sm font-semibold leading-6 text-black dark:text-white hover:bg-gray-100 dark:hover:bg-[#333]"
-                    >
-                      <item.icon
-                        className="h-5 w-5 flex-none text-gray-400"
-                        aria-hidden="true"
-                      />
-                      {item.name}
-                    </Link>
-                  ))}
+                  <button className="flex items-center justify-center gap-x-2.5 p-3 text-sm font-semibold leading-6 text-black dark:text-white hover:bg-gray-100 dark:hover:bg-[#333]">
+                    <PlayCircleIcon
+                      className="h-5 w-5 flex-none text-gray-400"
+                      aria-hidden="true"
+                    />
+                    Watch Demo
+                  </button>
+                  <button className="flex items-center justify-center gap-x-2.5 p-3 text-sm font-semibold leading-6 text-black dark:text-white hover:bg-gray-100 dark:hover:bg-[#333]">
+                    <StarIcon
+                      className="h-5 w-5 flex-none text-gray-400"
+                      aria-hidden="true"
+                    />
+                    Star on Github
+                  </button>
                 </div>
               </Popover.Panel>
             </Transition>

@@ -1,6 +1,7 @@
 import { useState, forwardRef, lazy, Suspense } from "react";
 import Web3 from "web3";
 import dynamic from "next/dynamic";
+import { motion } from "framer-motion";
 
 import classnames from "classnames";
 import * as Select from "@radix-ui/react-select";
@@ -27,20 +28,14 @@ const Notification = dynamic(() =>
   import("@/components/listen-ui/notification")
 );
 
-const products = [
-  {
-    id: 1,
-    title: "Basic Tee",
-    href: "#",
-    price: "$32.00",
-    color: "Black",
-    size: "Large",
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/checkout-page-02-product-01.jpg",
-    imageAlt: "Front of men's Basic Tee in black.",
-  },
-  // More products...
-];
+const inputVariants = {
+  hidden: { opacity: 0, y: -50 },
+  visible: (i) => ({
+    opacity: 1,
+    y: 0,
+    transition: { delay: i * 0.1 },
+  }),
+};
 
 export default function Upload() {
   const [audioSrc, setAudioSrc] = useState();
@@ -148,42 +143,39 @@ export default function Upload() {
       );
 
       NFTContract.methods
-      .mint(url)
-      .send({ from: accounts[0] })
-      .on("receipt", function (receipt) {
-        console.log("minted");
-        // List the NFT
-        const tokenId = receipt.events.NFTMinted.returnValues[0];
-        radioContract.methods
-          .listNft(NFTContractAddress, tokenId)
-          .send({ from: accounts[0] })
-          .on("receipt", function () {
-            console.log("listed");
-            setLoading(false);
-            setShow(true);
-            setNotificationText("Success!");
-            setNotificationDescription(
-              "Your song is now available on the listen page."
-            );
-          })
-          .on("error", function (error) {
-            console.error("Error:", error);
-            setLoading(false);
-            setShow(true);
-            setNotificationText("Transaction Denied");
-            setNotificationDescription("You have denied the transaction.");
-          });
-      })
-      .on("error", function (error) {
-        console.error("Error:", error);
-        setLoading(false);
-        setShow(true);
-        setNotificationText("Transaction Denied");
-        setNotificationDescription("You have denied the transaction.");
-      });
-    
-
-       
+        .mint(url)
+        .send({ from: accounts[0] })
+        .on("receipt", function (receipt) {
+          console.log("minted");
+          // List the NFT
+          const tokenId = receipt.events.NFTMinted.returnValues[0];
+          radioContract.methods
+            .listNft(NFTContractAddress, tokenId)
+            .send({ from: accounts[0] })
+            .on("receipt", function () {
+              console.log("listed");
+              setLoading(false);
+              setShow(true);
+              setNotificationText("Success!");
+              setNotificationDescription(
+                "Your song is now available on the listen page."
+              );
+            })
+            .on("error", function (error) {
+              console.error("Error:", error);
+              setLoading(false);
+              setShow(true);
+              setNotificationText("Transaction Denied");
+              setNotificationDescription("You have denied the transaction.");
+            });
+        })
+        .on("error", function (error) {
+          console.error("Error:", error);
+          setLoading(false);
+          setShow(true);
+          setNotificationText("Transaction Denied");
+          setNotificationDescription("You have denied the transaction.");
+        });
     } catch (error) {
       console.log(error);
       console.log("Error listing NFT for sale: ", error);
@@ -248,176 +240,204 @@ export default function Upload() {
 
               <div className="mt-4 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-4">
                 <div className="sm:col-span-2">
-                  <div className="flex justify-between">
-                    <label
-                      htmlFor="company"
-                      className="block text-sm font-medium text-black dark:text-white"
-                    >
-                      Choose Song File
-                    </label>
-                    <label
-                      htmlFor="company"
-                      className="block text-sm font-medium text-black dark:text-white"
-                    >
-                      MP3 or WAV only
-                    </label>
-                  </div>
-                  <div className="mt-1">
-                    <input
-                      type="file"
-                      name="small-file-input"
-                      id="small-file-input"
-                      accept="audio/*"
-                      onChange={(e) => {
-                        handleAudioChange(e);
-                        onChange(e);
-                        // something else
-                      }}
-                      className="block w-full border border-gray-300 shadow-sm rounded-md text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 dark:bg-black dark:border-[#333] dark:text-gray-400
-    file:bg-transparent file:border-0
-    file:bg-gray-100 file:mr-4
-    file:py-2 file:px-4
-    dark:file:bg-black dark:file:text-gray-400"
-                    />
-                  </div>
-                </div>
-
-                <div className="sm:col-span-2">
-                  <div className="flex justify-between">
-                    <label
-                      htmlFor="company"
-                      className="block text-sm font-medium text-black dark:text-white"
-                    >
-                      Choose Cover Art
-                    </label>
-                    <label
-                      htmlFor="company"
-                      className="block text-sm font-medium text-black dark:text-white"
-                    >
-                      JPG, PNG, or WEBP only
-                    </label>
-                  </div>
-                  <div className="mt-1">
-                    <input
-                      type="file"
-                      name="small-file-input"
-                      id="small-file-input"
-                      onChange={(e) => {
-                        handleCoverImageChange(e);
-                        createCoverImage(e);
-                        // something else
-                      }}
-                      className="block w-full border border-gray-300 shadow-sm rounded-md text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 dark:bg-black dark:border-[#333] dark:text-gray-400
-    file:bg-transparent file:border-0
-    file:bg-gray-100 file:mr-4
-    file:py-2 file:px-4
-    dark:file:bg-black dark:file:text-gray-400"
-                    />
-                  </div>
-                </div>
-
-                <div className="sm:col-span-2">
-                  <label
-                    htmlFor="company"
-                    className="block text-sm font-medium text-black dark:text-white"
+                  <motion.div
+                    initial="hidden"
+                    animate="visible"
+                    custom={0}
+                    variants={inputVariants}
                   >
-                    Song Title
-                  </label>
-                  <div className="mt-1">
-                    <input
-                      type="text"
-                      name="company"
-                      id="title"
-                      autoComplete="off"
-                      onChange={(e) => {
-                        setTitleSrc(e.target.value);
-                        updateFormInput({
-                          ...formInput,
-                          title: e.target.value,
-                        });
-                        // something else
-                      }}
-                      className="block w-full rounded-md border-gray-300 dark:bg-black dark:border-[#333] shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                    />
-                  </div>
+                    <div className="flex justify-between">
+                      <label
+                        htmlFor="company"
+                        className="block text-sm font-medium text-black dark:text-white"
+                      >
+                        Choose Song File
+                      </label>
+                      <label
+                        htmlFor="company"
+                        className="block text-sm font-medium text-black dark:text-white"
+                      >
+                        MP3 or WAV only
+                      </label>
+                    </div>
+                    <div className="mt-1">
+                      <input
+                        type="file"
+                        name="small-file-input"
+                        id="small-file-input"
+                        accept="audio/*"
+                        onChange={(e) => {
+                          handleAudioChange(e);
+                          onChange(e);
+                          // something else
+                        }}
+                        className="block w-full border border-gray-300 shadow-sm rounded-md text-sm focus:z-10 focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 dark:bg-black dark:border-[#333] dark:text-gray-400
+                      file:bg-transparent file:border-0
+                      file:bg-gray-100 file:mr-4
+                      file:py-2 file:px-4
+                      dark:file:bg-black dark:file:text-gray-400"
+                      />
+                    </div>
+                  </motion.div>
                 </div>
 
                 <div className="sm:col-span-2">
-                  <div>
+                  <motion.div
+                    initial="hidden"
+                    animate="visible"
+                    custom={1}
+                    variants={inputVariants}
+                  >
+                    <div className="flex justify-between">
+                      <label
+                        htmlFor="company"
+                        className="block text-sm font-medium text-black dark:text-white"
+                      >
+                        Choose Cover Art
+                      </label>
+                      <label
+                        htmlFor="company"
+                        className="block text-sm font-medium text-black dark:text-white"
+                      >
+                        JPG, PNG, or WEBP only
+                      </label>
+                    </div>
+                    <div className="mt-1">
+                      <input
+                        type="file"
+                        name="small-file-input"
+                        id="small-file-input"
+                        onChange={(e) => {
+                          handleCoverImageChange(e);
+                          createCoverImage(e);
+                          // something else
+                        }}
+                        className="block w-full border border-gray-300 shadow-sm rounded-md text-sm focus:z-10 focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 dark:bg-black dark:border-[#333] dark:text-gray-400
+                      file:bg-transparent file:border-0
+                      file:bg-gray-100 file:mr-4
+                      file:py-2 file:px-4
+                      dark:file:bg-black dark:file:text-gray-400"
+                      />
+                    </div>
+                  </motion.div>
+                </div>
+
+                <div className="sm:col-span-2">
+                  <motion.div
+                    initial="hidden"
+                    animate="visible"
+                    custom={2}
+                    variants={inputVariants}
+                  >
                     <label
                       htmlFor="company"
                       className="block text-sm font-medium text-black dark:text-white"
                     >
-                      Select Genre
+                      Song Title
                     </label>
+                    <div className="mt-1">
+                      <input
+                        type="text"
+                        name="company"
+                        id="title"
+                        autoComplete="off"
+                        onChange={(e) => {
+                          setTitleSrc(e.target.value);
+                          updateFormInput({
+                            ...formInput,
+                            title: e.target.value,
+                          });
+                          // something else
+                        }}
+                        className="block w-full rounded-md border-gray-300 dark:bg-black dark:border-[#333] shadow-sm focus:border-orange-500 focus:ring-orange-500 sm:text-sm"
+                      />
+                    </div>
+                  </motion.div>
+                </div>
 
-                    <Select.Root
-                      id="genre"
-                      onValueChange={(e) => {
-                        setGenreSrc(e);
-                        console.log(e);
-                        // something else
-                        updateFormInput({ ...formInput, genre: e });
-                      }}
-                    >
-                      <Select.Trigger
-                        className="w-full inline-flex items-center  rounded px-[15px] text-[13px] leading-none h-[35px] gap-[5px] text-violet11 border border-gray-300 dark:border-[#333] shadow-black/10 hover:bg-mauve3 focus:shadow-[0_0_0_2px] focus:shadow-black data-[placeholder]:text-violet9 outline-none"
-                        aria-label="Food"
+                <div className="sm:col-span-2">
+                  <motion.div
+                    initial="hidden"
+                    animate="visible"
+                    custom={3}
+                    variants={inputVariants}
+                  >
+                    <div>
+                      <label
+                        htmlFor="company"
+                        className="block text-sm font-medium text-black dark:text-white"
                       >
-                        <Select.Value placeholder="Select a genre" />
-                        <Select.Icon className="text-violet11">
-                          <ChevronDownIcon />
-                        </Select.Icon>
-                      </Select.Trigger>
-                      <Select.Portal>
-                        <Select.Content className="overflow-hidden bg-white dark:bg-black border border-gray-200 dark:border-[#333] rounded-md shadow-[0px_10px_38px_-10px_rgba(22,_23,_24,_0.35),0px_10px_20px_-15px_rgba(22,_23,_24,_0.2)]">
-                          <Select.ScrollUpButton className="flex items-center justify-center h-[25px] bg-white text-violet11 cursor-default">
-                            <ChevronUpIcon />
-                          </Select.ScrollUpButton>
-                          <Select.Viewport className="p-[5px]">
-                            <Select.Group>
-                              <Select.Label className="px-[25px] text-xs leading-[25px] text-mauve11">
-                                Genres
-                              </Select.Label>
-                              <SelectItem
-                                className="hover:bg-gray-200 dark:hover:bg-[#111]"
-                                value="Lofi"
-                              >
-                                Lofi
-                              </SelectItem>
-                              <SelectItem
-                                className="hover:bg-gray-200 dark:hover:bg-[#111]"
-                                value="Hip Hop"
-                              >
-                                Hip Hop
-                              </SelectItem>
-                              <SelectItem
-                                className="hover:bg-gray-200 dark:hover:bg-[#111]"
-                                value="R&B"
-                              >
-                                R&B
-                              </SelectItem>
-                              <SelectItem
-                                className="hover:bg-gray-200 dark:hover:bg-[#111]"
-                                value="Pop"
-                              >
-                                Pop
-                              </SelectItem>
-                              <SelectItem
-                                className="hover:bg-gray-200 dark:hover:bg-[#111]"
-                                value="Rock"
-                              >
-                                Rock
-                              </SelectItem>
-                            </Select.Group>
-                          </Select.Viewport>
-                          <Select.ScrollDownButton className="flex items-center justify-center h-[25px] bg-white text-violet11 cursor-default">
+                        Select Genre
+                      </label>
+
+                      <Select.Root
+                        id="genre"
+                        onValueChange={(e) => {
+                          setGenreSrc(e);
+                          console.log(e);
+                          // something else
+                          updateFormInput({ ...formInput, genre: e });
+                        }}
+                      >
+                        <Select.Trigger
+                          className="w-full rounded-md inline-flex items-center px-[15px] text-[13px] leading-none h-[35px] gap-[5px] text-violet11 border border-gray-300 dark:border-[#333] shadow-black/10 hover:bg-mauve3 focus:ring-1 focus:ring-orange-500 data-[placeholder]:text-violet9 outline-none"
+                          aria-label="Food"
+                        >
+                          <Select.Value placeholder="Select a genre" />
+                          <Select.Icon className="text-violet11">
                             <ChevronDownIcon />
-                          </Select.ScrollDownButton>
-                        </Select.Content>
-                      </Select.Portal>
-                    </Select.Root>
-                  </div>
+                          </Select.Icon>
+                        </Select.Trigger>
+                        <Select.Portal>
+                          <Select.Content className="overflow-hidden bg-white dark:bg-black border border-gray-200 dark:border-[#333] rounded-md shadow-[0px_10px_38px_-10px_rgba(22,_23,_24,_0.35),0px_10px_20px_-15px_rgba(22,_23,_24,_0.2)]">
+                            <Select.ScrollUpButton className="flex items-center justify-center h-[25px] bg-white text-violet11 cursor-default">
+                              <ChevronUpIcon />
+                            </Select.ScrollUpButton>
+                            <Select.Viewport className="p-[5px]">
+                              <Select.Group>
+                                <Select.Label className="px-[25px] text-xs leading-[25px] text-mauve11">
+                                  Genres
+                                </Select.Label>
+                                <SelectItem
+                                  className="hover:bg-gray-200 dark:hover:bg-[#111]"
+                                  value="Lofi"
+                                >
+                                  Lofi
+                                </SelectItem>
+                                <SelectItem
+                                  className="hover:bg-gray-200 dark:hover:bg-[#111]"
+                                  value="Hip Hop"
+                                >
+                                  Hip Hop
+                                </SelectItem>
+                                <SelectItem
+                                  className="hover:bg-gray-200 dark:hover:bg-[#111]"
+                                  value="R&B"
+                                >
+                                  R&B
+                                </SelectItem>
+                                <SelectItem
+                                  className="hover:bg-gray-200 dark:hover:bg-[#111]"
+                                  value="Pop"
+                                >
+                                  Pop
+                                </SelectItem>
+                                <SelectItem
+                                  className="hover:bg-gray-200 dark:hover:bg-[#111]"
+                                  value="Rock"
+                                >
+                                  Rock
+                                </SelectItem>
+                              </Select.Group>
+                            </Select.Viewport>
+                            <Select.ScrollDownButton className="flex items-center justify-center h-[25px] bg-white text-violet11 cursor-default">
+                              <ChevronDownIcon />
+                            </Select.ScrollDownButton>
+                          </Select.Content>
+                        </Select.Portal>
+                      </Select.Root>
+                    </div>
+                  </motion.div>
                 </div>
               </div>
             </div>
@@ -433,53 +453,51 @@ export default function Upload() {
                 role="list"
                 className="divide-y divide-gray-200 dark:divide-[#333]"
               >
-             
-                  <li className="flex px-4 py-6 sm:px-6">
-                    <div className="flex-shrink-0">
-                      {coverImageSrc ? (
-                        <img
-                          src={coverImageSrc}
-                          className="w-24 h-24 rounded-md object-center object-cover"
-                        />
-                      ) : (
-                        <div className="bg-gray-200 dark:bg-[#333] w-24 h-24 animate-pulse rounded-md" />
-                      )}
-                    </div>
+                <li className="flex px-4 py-6 sm:px-6">
+                  <div className="flex-shrink-0">
+                    {coverImageSrc ? (
+                      <img
+                        src={coverImageSrc}
+                        className="w-24 h-24 rounded-md object-center object-cover"
+                      />
+                    ) : (
+                      <div className="bg-gray-200 dark:bg-[#333] w-24 h-24 animate-pulse rounded-md" />
+                    )}
+                  </div>
 
-                    <div className="ml-6 flex flex-1 flex-col">
-                      <div className="flex">
-                        <div className="min-w-0 flex-1 space-y-1.5">
-                          {titleSrc ? (
-                            <h4 className="text-md font-medium text-black dark:text-white">
-                              {titleSrc}
-                            </h4>
-                          ) : (
-                            <div className="bg-gray-200 dark:bg-[#333] w-full h-7 animate-pulse rounded-md" />
-                          )}
+                  <div className="ml-6 flex flex-1 flex-col">
+                    <div className="flex">
+                      <div className="min-w-0 flex-1 space-y-1.5">
+                        {titleSrc ? (
+                          <h4 className="text-md font-medium text-black dark:text-white">
+                            {titleSrc}
+                          </h4>
+                        ) : (
+                          <div className="bg-gray-200 dark:bg-[#333] w-full h-7 animate-pulse rounded-md" />
+                        )}
 
-                          {genreSrc ? (
-                            <h4 className="text-md font-medium text-black dark:text-white">
-                              {genreSrc}
-                            </h4>
-                          ) : (
-                            <div className="bg-gray-200 dark:bg-[#333] w-full h-7 animate-pulse rounded-md" />
-                          )}
-                        </div>
+                        {genreSrc ? (
+                          <h4 className="text-md font-medium text-black dark:text-white">
+                            {genreSrc}
+                          </h4>
+                        ) : (
+                          <div className="bg-gray-200 dark:bg-[#333] w-full h-7 animate-pulse rounded-md" />
+                        )}
+                      </div>
 
-                        <div className="ml-4 flow-root flex-shrink-0">
-                          <button
-                            type="button"
-                            className="-m-2.5 flex items-center justify-center bg-white dark:bg-[#111] p-2.5 text-gray-400 hover:text-gray-500"
-                            onClick={handleRemoveAll}
-                          >
-                            <span className="sr-only">Remove</span>
-                            <TrashIcon className="h-5 w-5" aria-hidden="true" />
-                          </button>
-                        </div>
+                      <div className="ml-4 flow-root flex-shrink-0">
+                        <button
+                          type="button"
+                          className="-m-2.5 flex items-center justify-center bg-white dark:bg-[#111] p-2.5 text-gray-400 hover:text-gray-500"
+                          onClick={handleRemoveAll}
+                        >
+                          <span className="sr-only">Remove</span>
+                          <TrashIcon className="h-5 w-5" aria-hidden="true" />
+                        </button>
                       </div>
                     </div>
-                  </li>
-             
+                  </div>
+                </li>
               </ul>
               <div className="flex justify-between px-4 py-6 sm:px-6">
                 {audioSrc ? (
@@ -500,7 +518,7 @@ export default function Upload() {
                 coverImageSrc ? (
                   <button
                     type="submit"
-                    className="w-full rounded-md border border-transparent bg-orange-600 px-4 py-3 text-base font-medium text-white shadow-sm hover:bg-orange-600/80 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
+                    className="w-full rounded-md border border-transparent bg-orange-600 px-4 py-3 text-base font-medium text-white shadow-sm hover:bg-orange-600/80 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 focus:ring-offset-gray-50"
                     onClick={listNFTForSale}
                   >
                     Upload Song to Etherwav
@@ -509,7 +527,7 @@ export default function Upload() {
                   !loading && (
                     <button
                       type="submit"
-                      className="w-full rounded-md border border-transparent bg-orange-600 px-4 py-3 text-base font-medium text-white shadow-sm hover:bg-orange-600/80 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50 cursor-not-allowed"
+                      className="w-full rounded-md border border-transparent bg-orange-600 px-4 py-3 text-base font-medium text-white shadow-sm hover:bg-orange-600/80 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 focus:ring-offset-gray-50 cursor-not-allowed"
                       disabled
                     >
                       Fill out all fields to upload
