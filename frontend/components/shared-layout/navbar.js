@@ -26,9 +26,15 @@ import Link from "next/link";
 
 const products = [
   {
-    name: "Listen",
-    description: "Find the best songs on Polygon",
+    name: "Radio",
+    description: "Find the best songs on Polygon with Etherwav Radio",
     href: "/listen",
+    icon: ChartPieIcon,
+  },
+  {
+    name: "Streaming",
+    description: "Stream your favorite songs on Etherwav whenever you want",
+    href: "/streaming",
     icon: ChartPieIcon,
   },
   {
