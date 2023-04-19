@@ -20,6 +20,7 @@ import axios from "axios";
 import StreamingHeaderSkeleton from "@/components/skeletons/streaming-header-skeleton";
 import StreamingAudioSkeleton from "@/components/skeletons/streaming-audio-skeleton";
 import StreamingStatsSkeleton from "@/components/skeletons/streaming-stats";
+import StreamingSkeleton from "@/components/skeletons/streaming-skeleton";
 
 const navigation = [
   { name: "Projects", href: "#", icon: FolderIcon, current: false },
@@ -700,85 +701,88 @@ export default function Streaming() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-white/5">
-                  {nfts.length > 0
-                    ? nfts.map((nft, i) => (
-                        <tr
-                          key={i}
-                          onMouseEnter={() => setHovered(i)}
-                          onMouseLeave={() => setHovered(null)}
-                          className={`hover:bg-gray-100 dark:hover:bg-[#111] transition duration-150 ease-in-out ${
-                            hovered !== null && hovered !== i ? "blur-sm" : ""
-                          }`}
-                        >
-                          <td className="py-4 pl-4 pr-8 sm:pl-6 lg:pl-8">
-                            <div className="flex items-center gap-x-4">
-                              <motion.div
-                                initial={{ opacity: 1 }}
-                                whileHover={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                exit={{ opacity: 0 }}
-                                className="h-8 w-8 rounded-md overflow-hidden bg-gray-800"
-                              >
-                                <img
-                                  src={nft.coverImage}
-                                  alt=""
-                                  className="h-8 w-8"
-                                />
-                              </motion.div>
-                              <AnimatePresence>
-                                {hovered === i && (
-                                  <motion.div
-                                    initial={{ opacity: 0, y: 20 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    exit={{ opacity: 0, y: -20 }}
-                                    className="h-8 w-8 absolute"
+                  {nfts.length > 0 ? (
+                    nfts.map((nft, i) => (
+                      <tr
+                        key={i}
+                        onMouseEnter={() => setHovered(i)}
+                        onMouseLeave={() => setHovered(null)}
+                        className={`hover:bg-gray-100 dark:hover:bg-[#111] transition duration-150 ease-in-out ${
+                          hovered !== null && hovered !== i ? "blur-sm" : ""
+                        }`}
+                      >
+                        <td className="py-4 pl-4 pr-8 sm:pl-6 lg:pl-8">
+                          <div className="flex items-center gap-x-4">
+                            <motion.div
+                              initial={{ opacity: 1 }}
+                              whileHover={{ opacity: 0 }}
+                              animate={{ opacity: 1 }}
+                              exit={{ opacity: 0 }}
+                              className="h-8 w-8 rounded-md overflow-hidden bg-gray-800"
+                            >
+                              <img
+                                src={nft.coverImage}
+                                alt=""
+                                className="h-8 w-8"
+                              />
+                            </motion.div>
+                            <AnimatePresence>
+                              {hovered === i && (
+                                <motion.div
+                                  initial={{ opacity: 0, y: 20 }}
+                                  animate={{ opacity: 1, y: 0 }}
+                                  exit={{ opacity: 0, y: -20 }}
+                                  className="h-8 w-8 absolute"
+                                >
+                                  <div
+                                    onClick={() => handleCurrentIndex(i, nft)}
+                                    className="bg-gray-300 dark:bg-[#333] hover:bg-gray-300 dark:hover:bg-[#444] rounded-md"
                                   >
-                                    <div
-                                      onClick={() => handleCurrentIndex(i, nft)}
-                                      className="bg-gray-300 dark:bg-[#333] hover:bg-gray-300 dark:hover:bg-[#444] rounded-md"
-                                    >
-                                      <PlayIcon className="ml-0.5 h-8 w-8 " />
-                                    </div>
-                                  </motion.div>
-                                )}
-                              </AnimatePresence>
+                                    <PlayIcon className="ml-0.5 h-8 w-8 " />
+                                  </div>
+                                </motion.div>
+                              )}
+                            </AnimatePresence>
 
-                              <div className="truncate text-sm font-medium leading-6">
-                                {nft.title}
-                              </div>
+                            <div className="truncate text-sm font-medium leading-6">
+                              {nft.title}
                             </div>
-                          </td>
-                          <td className="hidden py-4 pl-0 pr-4 sm:table-cell sm:pr-8">
-                            <span className="text-sm font-medium">
-                              {nft.seller.slice(0, 5)}...
-                              {nft.seller.slice(-4)}
-                            </span>
-                          </td>
-                          <td className="hidden py-4 pl-0 pr-4 sm:table-cell sm:pr-8">
-                            <div className="flex gap-x-3">
-                              <div className="rounded-md bg-gray-700/40 px-2 py-1 text-xs font-medium text-gray-400 ring-1 ring-inset ring-white/10">
-                                {nft.genre}
-                              </div>
+                          </div>
+                        </td>
+                        <td className="hidden py-4 pl-0 pr-4 sm:table-cell sm:pr-8">
+                          <span className="text-sm font-medium">
+                            {nft.seller.slice(0, 5)}...
+                            {nft.seller.slice(-4)}
+                          </span>
+                        </td>
+                        <td className="hidden py-4 pl-0 pr-4 sm:table-cell sm:pr-8">
+                          <div className="flex gap-x-3">
+                            <div className="w-24 rounded-md bg-gray-700/40 px-2 py-1 text-xs font-medium text-gray-400 ring-1 ring-inset ring-white/10 text-center">
+                              {nft.genre}
                             </div>
-                          </td>
-                          <td className="py-4 pl-0 pr-4 text-sm leading-6 sm:pr-8 lg:pr-20">
-                            <div className="flex items-center justify-end gap-x-2 sm:justify-start">
-                              <time className="text-gray-400 sm:hidden">
-                                {/* {nft.genre} */} TIME
-                              </time>
+                          </div>
+                        </td>
 
-                              <div className="hidden text-white sm:block">
-                                {nft.heatCount}
-                              </div>
-                            </div>
-                          </td>
+                        <td className="py-4 pl-0 pr-4 text-sm leading-6 sm:pr-8 lg:pr-20">
+                          <div className="flex items-center justify-end gap-x-2 sm:justify-start">
+                            <time className="text-gray-400 sm:hidden">
+                              {/* {nft.genre} */} TIME
+                            </time>
 
-                          <td className="hidden py-4 pl-0 pr-4 text-right text-sm leading-6 text-gray-400 sm:table-cell sm:pr-6 lg:pr-8">
-                            Soon!
-                          </td>
-                        </tr>
-                      ))
-                    : null}
+                            <div className="hidden text-white sm:block">
+                              {nft.heatCount}
+                            </div>
+                          </div>
+                        </td>
+
+                        <td className="hidden py-4 pl-0 pr-4 text-right text-sm leading-6 text-gray-400 sm:table-cell sm:pr-6 lg:pr-8">
+                          Soon!
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <StreamingSkeleton />
+                  )}
                 </tbody>
               </table>
             </div>
