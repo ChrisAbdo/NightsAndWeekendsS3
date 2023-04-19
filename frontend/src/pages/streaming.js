@@ -42,32 +42,7 @@ const secondaryNavigation = [
   { name: "Collaborators", href: "#", current: false },
   { name: "Notifications", href: "#", current: false },
 ];
-const stats = [
-  { name: "Number of deploys", value: "405" },
-  { name: "Average deploy time", value: "3.65", unit: "mins" },
-  { name: "Number of servers", value: "3" },
-  { name: "Success rate", value: "98.5%" },
-];
-const statuses = {
-  Completed: "text-green-400 bg-green-400/10",
-  Error: "text-rose-400 bg-rose-400/10",
-};
-const activityItems = [
-  {
-    user: {
-      name: "Michael Foster",
-      imageUrl:
-        "https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-    },
-    commit: "2d89f0c8",
-    branch: "main",
-    status: "Completed",
-    duration: "25s",
-    date: "45 minutes ago",
-    dateTime: "2023-01-23T11:00",
-  },
-  // More items...
-];
+
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
